@@ -11,6 +11,7 @@ class SnapLoginHandler:
         self.authenticate_snapd()
 
     def authenticate_snapd(self):
+        """authenticate_snapd"""
         self.auth_data = self._load_auth_data()
         if self.auth_data is None:
             self._invite_signup_ubuntu()
@@ -20,6 +21,12 @@ class SnapLoginHandler:
             self._save_auth_data()
 
     def _attempt_login(self, username, password, two_fa=None):
+        """_attempt_login
+
+        :param username: String
+        :param password: String
+        :param two_fa:
+        """
         try:
             return Snapd.login_sync(username, password, two_fa)
         except Exception as ex:
