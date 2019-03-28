@@ -15,14 +15,14 @@ class SnapService(BasePackageService):
         self.package_type = "snap"
 
     def install_package(self, name):
-        snap = self.snap_client.list_one_sync(name=name)
-        return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, revision=snap.get_revision())
+        snap = self.snap_client.find_sync(flags=Snapd.FindFlags(1), query=name)
+        return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel)
 
     def remove_package(self, name):
         pass
 
     def retrieve_package_information_by_name(self, name):
-        snap = self.snap_client.list_one_sync(name=name)
+        snap = self.snap_client.find_sync(query=name)
         return self._extract_snap_to_dict(snap=snap)
 
     def _extract_snap_to_dict(self, snap):
@@ -36,3 +36,12 @@ class SnapService(BasePackageService):
             "download_size": snap.get_download_size(),
             "install_date": snap.get_install_date()
         }
+
+    def _build_install_args(self, name):
+        """_build_install_args
+
+            Build dictionnary that will passed as args using the ** operator
+
+        :param name:
+        """
+        pass
