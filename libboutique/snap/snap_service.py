@@ -15,7 +15,6 @@ class SnapService(BasePackageService):
         self.package_type = "snap"
 
     def install_package(self, name):
-        snap = self.snap_client.find_sync(flags=Snapd.FindFlags(1), query=name)
         return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel)
 
     def remove_package(self, name):
@@ -37,11 +36,3 @@ class SnapService(BasePackageService):
             "install_date": snap.get_install_date()
         }
 
-    def _build_install_args(self, name):
-        """_build_install_args
-
-            Build dictionnary that will passed as args using the ** operator
-
-        :param name:
-        """
-        pass
