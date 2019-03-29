@@ -14,11 +14,20 @@ class SnapService(BasePackageService):
         self.channel = "stable"
         self.package_type = "snap"
 
+    def progress_callback(self, client, change, deprecated, user_data):
+        total = 0
+        done = 0
+        for task in change.get_tasks():
+            total += task.get_progress_total()
+            done += task.get_progress_done()
+        percent = round((done/total) * 100)
+        print(percent) # TODO Change for a callback to the controller, maybe?
+
     def install_package(self, name):
-        return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel)
+        return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback)
 
     def remove_package(self, name):
-        pass
+        return self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
 
     def retrieve_package_information_by_name(self, name):
         snap = self.snap_client.find_sync(query=name)
