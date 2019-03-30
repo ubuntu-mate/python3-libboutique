@@ -1,6 +1,7 @@
 from libboutique.metaclasses.singleton import Singleton
 
-class ProgressPublisher(Singleton):
+
+class ProgressPublisher(metaclass=Singleton):
     """ProgressPublisher"""
 
     def __init__(self):
@@ -33,5 +34,5 @@ class ProgressPublisher(Singleton):
         :param package:
         :param progress:
         """
-        for origin, callback in self.subscribers:
+        for origin,callback in self.subscribers.items():
             callback(package, progress)

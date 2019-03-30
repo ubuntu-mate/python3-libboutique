@@ -2,7 +2,7 @@ from libboutique.metaclasses.singleton import Singleton
 from libboutique.publisher.progress_publisher import ProgressPublisher
 from libboutique.services.snap.snap_service import SnapService
 
-class CommandHandler(Singleton):
+class CommandHandler(metaclass=Singleton):
     """CommandHandler"""
 
     def __init__(self, origin, callback_subscribe):

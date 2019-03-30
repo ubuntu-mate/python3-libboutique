@@ -5,7 +5,7 @@ import json
 gi.require_version("Snapd", '1')
 from gi.repository import Snapd
 
-from libboutique.common.base_package_service import BasePackageService
+from libboutique.services.common.base_package_service import BasePackageService
 
 class SnapService(BasePackageService):
 
@@ -22,7 +22,7 @@ class SnapService(BasePackageService):
             total += task.get_progress_total()
             done += task.get_progress_done()
         percent = round((done/total) * 100)
-        self.progress_callback.publish(client.get_name(), percent)
+        self.progress_publisher.publish(client, percent)
 
     def install_package(self, name):
         return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback)
