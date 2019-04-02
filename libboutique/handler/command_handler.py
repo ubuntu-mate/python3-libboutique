@@ -22,6 +22,8 @@ class CommandHandler(metaclass=Singleton):
         self.snap_service.remove_package(name=name)
         # TODO APT
 
-    def list_installed_apps(self):
+    def list_installed_packages(self):
         list_of_packages = {}
+        list_of_packages.update({"curated": None}) # TODO Change None for implementation for curated
         list_of_packages.update({"snap": self.snap_service.get_installed_package()})
+        list_of_packages.update({"apt": None}) # TODO  Change None for implementation for apt
