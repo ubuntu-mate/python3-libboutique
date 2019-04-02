@@ -22,13 +22,20 @@ class SnapService(BasePackageService):
             total += task.get_progress_total()
             done += task.get_progress_done()
         percent = round((done/total) * 100)
-        self.progress_publisher.publish(client, percent)
+        self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
     def install_package(self, name):
         return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback)
 
     def remove_package(self, name):
         return self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
+
+    def get_installed_package(self):
+        installed_snaps = self.snap_client.list_sync()
+        installed_packages = []
+        for snap in installed_snaps:
+            installed_packages.append(self._extract_snap_to_dict(snap=snap))
+        return installed_packages
 
     def retrieve_package_information_by_name(self, name):
         snap = self.snap_client.find_sync(query=name)

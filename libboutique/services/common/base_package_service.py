@@ -11,3 +11,6 @@ class BasePackageService():
 
     def retrieve_package_information_by_name(self, name):
         raise NotImplemented("You must implement it in your class")
+
+    def get_installed_package(self, name):
+        raise NotImplemented("You must implement it in your class")
