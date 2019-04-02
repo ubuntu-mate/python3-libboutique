@@ -22,3 +22,6 @@ class CommandHandler(metaclass=Singleton):
         self.snap_service.remove_package(name=name)
         # TODO APT
 
+    def list_installed_apps(self):
+        list_of_packages = {}
+        list_of_packages.update({"snap": self.snap_service.get_installed_package()})
