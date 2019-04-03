@@ -33,7 +33,11 @@ class SnapService(BasePackageService):
             return self._format_glib_error(exception=ex)
 
     def remove_package(self, name):
-        return self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
+        try:
+            if self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback):
+                return self._successful_message(action="remove", package=name)
+        except Exception as ex:
+            return self._format_glib_error(exception=ex)
 
     def get_installed_package(self):
         installed_snaps = self.snap_client.list_sync()
