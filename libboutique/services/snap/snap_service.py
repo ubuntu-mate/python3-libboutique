@@ -16,6 +16,7 @@ class SnapService(BasePackageService):
         self.progress_publisher = progress_publisher
 
     def progress_callback(self, client, change, deprecated, user_data):
+        if self.progress_publisher is None: return
         total = 0
         done = 0
         for task in change.get_tasks():
@@ -25,7 +26,11 @@ class SnapService(BasePackageService):
         self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
     def install_package(self, name):
-        return self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback)
+        try:
+            if self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback):
+                return self._successful_message(action="install", package=name)
+        except Exception as ex:
+            return self._format_glib_error(exception=ex)
 
     def remove_package(self, name):
         return self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
