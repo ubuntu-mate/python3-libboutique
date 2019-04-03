@@ -36,12 +36,32 @@ class TestSnapService(unittest.TestCase):
                                                             progress_callback=snap_service.progress_callback)
 
     def testInstallPackageTwice(self):
+        """testInstallPackageTwice"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.install_package(name="bw")
         result = snap_service.install_package(name="bw")
         self.assertEqual(result.get("code"), 14)
         self.assertEqual(result.get("message"), 'snap "bw" is already installed')
         self.assertEqual(result.get("args"), ('snap "bw" is already installed',))
+        self.assertEqual(result.get("domain"), "snapd-error-quark")
+
+    def testInstallNewPackage(self):
+        """testInstallNewPackage"""
+        snap_service = SnapService(progress_publisher=None)
+        snap_service.remove_package(name="bw")
+        result = snap_service.install_package(name="bw")
+        self.assertEqual(result.get("action"), "install")
+        self.assertEqual(result.get("message"), "success")
+        self.assertEqual(result.get("name"), "bw")
+
+    def testRemoveTwicePackage(self):
+        """testRemoveTwicePackage"""
+        snap_service = SnapService(progress_publisher=None)
+        snap_service.remove_package(name="bw")
+        result = snap_service.remove_package(name="bw")
+        self.assertEqual(result.get("code"), 15)
+        self.assertEqual(result.get("message"), 'snap "bw" is not installed')
+        self.assertEqual(result.get("args"), ('snap "bw" is not installed',))
         self.assertEqual(result.get("domain"), "snapd-error-quark")
 
 
