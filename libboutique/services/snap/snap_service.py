@@ -41,14 +41,17 @@ class SnapService(BasePackageService):
 
     def get_installed_package(self):
         installed_snaps = self.snap_client.list_sync()
-        installed_packages = []
-        for snap in installed_snaps:
-            installed_packages.append(self._extract_snap_to_dict(snap=snap))
-        return installed_packages
+        return self._create_dict_from_array(snap_array=installed_snaps)
 
     def retrieve_package_information_by_name(self, name):
-        snap = self.snap_client.find_sync(query=name)
-        return self._extract_snap_to_dict(snap=snap)
+        snap = self.snap_client.find_sync(flags=Snapd.FindFlags(1), query=name)
+        return self._create_dict_from_array(snap[0]) # ( [ Snaps ], suggested_currency: )
+
+    def _create_dict_from_array(self, snap_array):
+        packages = []
+        for snap in snap_array:
+            packages.append(self._extract_snap_to_dict(snap=snap))
+        return packages
 
     def _extract_snap_to_dict(self, snap):
         return {
@@ -61,4 +64,5 @@ class SnapService(BasePackageService):
             "download_size": snap.get_download_size(),
             "install_date": snap.get_install_date()
         }
+
 
