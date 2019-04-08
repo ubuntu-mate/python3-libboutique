@@ -1,11 +1,10 @@
 import gi
-import os
-import json
 
 gi.require_version("Snapd", '1')
 from gi.repository import Snapd
 
 from libboutique.services.common.base_package_service import BasePackageService
+
 
 class SnapService(BasePackageService):
 
