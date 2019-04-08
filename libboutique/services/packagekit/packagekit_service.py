@@ -12,7 +12,7 @@ class PackageKitService(BasePackageService):
       self.packagekit_client = PackageKitGlib.Client().new()
       self.progress_publisher = progress_publisher
 
-    def progress_callback(self, client, change, deprecated, user_data):
+    def progress_callback(self, status, typ, data=None):
         pass
 
     def callback_ready(self):
@@ -30,14 +30,12 @@ class PackageKitService(BasePackageService):
     def get_installed_packages(self):
         pass
 
-    def retrieve_package_information_by_name(self, name, ready_callback):
-        client = self.packagekit_client.search_details_async(filters=1,
-                                                             values=name,
-                                                             cancellable=None,
-                                                             progress_callback=self.progress_callback,
-                                                             progress_user_data=None,
-                                                             callback_ready=ready_callback,
-                                                             user_data=None)
+    def retrieve_package_information_by_name(self, name):
+        return self.packagekit_client.search_details(filters=1,
+                                                    values=[name,],
+                                                    cancellable=None,
+                                                    progress_callback=self.progress_callback,
+                                                    progress_user_data=None)
 
     def create_dict_from_array(self, package_array):
         pass
