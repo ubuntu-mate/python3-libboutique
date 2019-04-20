@@ -40,7 +40,7 @@ class SnapService(BasePackageService):
             return self._format_glib_error(exception=ex)
 
     def get_installed_package(self):
-        installed_snaps = self.snap_client.list_sync()
+        installed_snaps = self.snap_client.get_snaps_sync(flags=0, names=None)
         return self._create_dict_from_array(snap_array=installed_snaps)
 
     def retrieve_package_information_by_name(self, name):
@@ -63,10 +63,13 @@ class SnapService(BasePackageService):
             platform=None,
             package_type=self.package_type,
             summary=snap.get_summary(),
-            version=snap.get_version(),
+            version=self.__format_version(snap=snap),
             license=snap.get_license(),
             installed_date=snap.get_install_date(),
             is_installed=True if snap.get_install_date() is not None else False,
+            version_installed=self.__format_version(snap=snap) if snap.get_install_date() is not None else None,
             price=snap.get_prices()
            )
 
+    def __format_version(self, snap):
+        return "{version}-{revision}".format(version=snap.get_version(), revision=snap.get_revision())
