@@ -26,6 +26,18 @@ class PackageFormatter():
         :param installed_date: datetime default None
         :param distro: str default "ubuntu"
         :param license: str default None
+
+        :returns {
+                    'id': 'qDxAwZcZ5yynyGcfaFSmKyNwUsqyRdwJ',
+                    'name': 'ubuntu-mate-welcome', 'dev_name': 'flexiondotorg',
+                    'icon_path': 'https://dashboard.snapcraft.io/site_media/appmedia/2018/02/ubuntu-mate.png',
+                    'media': None, 'summary': 'Welcome screen for Ubuntu MATE',
+                    'platform': None, 'source': 'snap', 'package_type': 'snap',
+                    'dependencies': None, 'version': '17.10.28-f853dec',
+                    'is_installed': True, 'version_installed': None,
+                    'installed_date': <GLib.DateTime object at 0x7f1cdbf75828 (GDateTime at 0x11f6320)>,
+                    'distro': 'ubuntu', 'license': None, 'price': []
+                }
         """
         return {
             "id": id_package,
