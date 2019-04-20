@@ -6,7 +6,7 @@ class PackageFormatter():
     def format_package_informations(id_package, name, platform, source, package_type,
                                     version, is_installed, dev_name=None, icon=None,
                                     media=None, summary=None, dependencies=None, version_installed=None,
-                                    installed_date=None, distro="ubuntu", license=None):
+                                    installed_date=None, distro="ubuntu", license=None, price=None):
         """format_package_informations
 
         Build data structure to communicate from
@@ -43,5 +43,6 @@ class PackageFormatter():
             "version_installed": version_installed,
             "installed_date": installed_date,
             "distro": distro,
-            "license": license
+            "license": license,
+            "price": price
         }
