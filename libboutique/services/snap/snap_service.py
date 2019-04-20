@@ -4,6 +4,7 @@ gi.require_version("Snapd", '1')
 from gi.repository import Snapd
 
 from libboutique.services.common.base_package_service import BasePackageService
+from libboutique.formatter.package_formatter import PackageFormatter
 
 
 class SnapService(BasePackageService):
@@ -53,15 +54,19 @@ class SnapService(BasePackageService):
         return packages
 
     def _extract_snap_to_dict(self, snap):
-        return {
-            "id": snap.get_id(),
-            "name": snap.get_name(),
-            "type": self.package_type,
-            "revision": snap.get_revision(),
-            "license": snap.get_license(),
-            "icon": snap.get_icon(),
-            "download_size": snap.get_download_size(),
-            "install_date": snap.get_install_date()
-        }
-
+        return PackageFormatter.format_package_informations(
+            id_package=snap.get_id(),
+            name=snap.get_name(),
+            dev_name=snap.get_developer(),
+            icon=snap.get_icon(),
+            source=self.package_type,
+            platform=None,
+            package_type=self.package_type,
+            summary=snap.get_summary(),
+            version=snap.get_version(),
+            license=snap.get_license(),
+            installed_date=snap.get_install_date(),
+            is_installed=True if snap.get_install_date() is not None else False,
+            price=snap.get_prices()
+           )
 
