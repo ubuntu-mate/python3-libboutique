@@ -16,7 +16,7 @@ class PackageFormatter():
         :param dev_name: str default None
         :param icon: str
         :param summary: str
-        :param platform: str
+        :param platform: str : i.e i386 amd64 arm64 
         :param source: str : ppa/distro repo/snap
         :param package_type: str deb/appImage/snap/flatpak (if we use flatpak one day)
         :param dependencies: str default None
