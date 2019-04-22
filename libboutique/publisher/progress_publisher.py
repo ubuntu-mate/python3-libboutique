@@ -32,7 +32,7 @@ class ProgressPublisher(metaclass=Singleton):
             params stil TBD
 
         :param package:
-        :param progress:
+        :param progress:  dict
         """
         for origin,callback in self.subscribers.items():
             callback(package, progress)
