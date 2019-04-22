@@ -4,6 +4,7 @@ gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
 
 from libboutique.services.common.base_package_service import BasePackageService
+from libboutique.formatter.package_formatter import PackageFormatter
 
 
 class PackageKitService(BasePackageService):
@@ -19,6 +20,7 @@ class PackageKitService(BasePackageService):
         pass
 
     def install_package(self, name):
+        # TODO Requires package_name;version;arch;distro as a string to install
         try:
             self.packagekit_client.install_package()
         except Exception as ex:
@@ -31,17 +33,16 @@ class PackageKitService(BasePackageService):
         pass
 
     def retrieve_package_information_by_name(self, name):
-        return self.packagekit_client.search_details(filters=1,
-                                                    values=[name,],
-                                                    cancellable=None,
-                                                    progress_callback=self.progress_callback,
-                                                    progress_user_data=None)
+        search_results = self.packagekit_client.search_details(filters=1, values=[name,], cancellable=None, progress_callback=self.progress_callback, progress_user_data=None)
+        return self._create_dict_from_array(search_results.get_package_array())
 
-    def create_dict_from_array(self, package_array):
-        pass
+    def _create_dict_from_array(self, package_array):
+        packages = []
+        for package in package_array:
+            packages.append(self._extract_package_to_dict(package=package))
+        return packages
 
     def _extract_package_to_dict(self, package):
-        pass
-
-    def __create_package_id(self, name):
-        pass
+        return PackageFormatter.format_package_informations(id_package=package.get_id(), name=package.get_name(),
+         platform=package.get_arch(), summary=package.get_summary(), source="apt", package_type="apt", 
+         version=package.get_version(), is_installed=package.get_data())

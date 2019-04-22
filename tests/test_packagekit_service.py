@@ -12,7 +12,6 @@ class TestPackageKitService(unittest.TestCase):
         package = "flat"
         package_kit_service = PackageKitService()
         result = package_kit_service.retrieve_package_information_by_name(name=package)
-        self.assertIsInstance(result, PackageKitGlib.Results)
-        package_array = result.get_package_array()
-        for package in package_array:
-            self.assertEqual(package, PackageKitGlib.Package)
+        for package in result:
+            print(package)
+            self.assertEqual(package, None)
