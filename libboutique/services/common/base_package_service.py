@@ -9,7 +9,7 @@ class BasePackageService:
     def retrieve_package_information_by_name(self, name):
         raise NotImplementedError("You must implement it in your class")
 
-    def get_installed_package(self, name):
+    def list_installed_packages(self) -> List:
         raise NotImplementedError("You must implement it in your class")
 
     def _format_glib_error(self, exception):

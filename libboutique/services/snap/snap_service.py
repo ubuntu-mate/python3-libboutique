@@ -65,7 +65,7 @@ class SnapService(BasePackageService):
         except Exception as ex:
             return self._format_glib_error(exception=ex)
 
-    def get_installed_package(self) -> List[Dict]:
+    def list_installed_packages(self) -> List[Dict]:
         """
             List the packages that are installed on
             this machine
