@@ -4,8 +4,9 @@ import os
 
 from gi.reposity import Snapd
 
+
 class SnapLoginHandler:
-    auth_data_path = os.path.join(os.path.expanduser('~'), 'deleteme')
+    auth_data_path = os.path.join(os.path.expanduser("~"), "deleteme")
 
     def __init__(self):
         self.authenticate_snapd()
@@ -42,9 +43,20 @@ class SnapLoginHandler:
         """
         username = None
         try:
-            username = subprocess.check_output(["zenity", "--entry", \
-            "--title", "Authentication for Snappy", \
-            "--text", "Please enter your e-mail address for your Ubuntu One account."]).decode("ascii").replace('\n', '')
+            username = (
+                subprocess.check_output(
+                    [
+                        "zenity",
+                        "--entry",
+                        "--title",
+                        "Authentication for Snappy",
+                        "--text",
+                        "Please enter your e-mail address for your Ubuntu One account.",
+                    ]
+                )
+                .decode("ascii")
+                .replace("\n", "")
+            )
         except subprocess.CalledProcessError:
             self._show_authentication_error()
         finally:
@@ -57,9 +69,20 @@ class SnapLoginHandler:
         """
         password = None
         try:
-            password = subprocess.check_output(["zenity", "--password", \
-            "--title", "Authentication for Snappy", \
-            "--text", "Please enter your Ubuntu One password"]).decode("ascii").replace("\n", "")
+            password = (
+                subprocess.check_output(
+                    [
+                        "zenity",
+                        "--password",
+                        "--title",
+                        "Authentication for Snappy",
+                        "--text",
+                        "Please enter your Ubuntu One password",
+                    ]
+                )
+                .decode("ascii")
+                .replace("\n", "")
+            )
         except subprocess.CalledProcessError:
             self._show_authentication_error()
         finally:
@@ -68,9 +91,20 @@ class SnapLoginHandler:
     def _ask_for_2FA(self):
         two_factor_auth = None
         try:
-            two_factor_auth = subprocess.check_output(["zenity", "--entry", \
-            "--title", "Authentication for Snappy", \
-            "--text", "Please enter your 2 factor authentication code"]).decode("ascii").replace("\n", "")
+            two_factor_auth = (
+                subprocess.check_output(
+                    [
+                        "zenity",
+                        "--entry",
+                        "--title",
+                        "Authentication for Snappy",
+                        "--text",
+                        "Please enter your 2 factor authentication code",
+                    ]
+                )
+                .decode("ascii")
+                .replace("\n", "")
+            )
         except subprocess.CalledProcessError:
             self._show_authentication_error()
         finally:
@@ -82,11 +116,19 @@ class SnapLoginHandler:
             invite user to signup to Ubuntu One if it isn't already the case.
         """
         try:
-            subprocess.check_output(["zenity", "--question", \
-            "--title", "Authentication for Snappy" \
-            "--text", "To install snaps from the Ubuntu Store(without being root), you need an Ubuntu One account.\n\n\Do you have an Ubuntu One account?", \
-            "--ok-label", "Continue", \
-            "--cancel-label", "Sign up"]).decode("ascii")
+            subprocess.check_output(
+                [
+                    "zenity",
+                    "--question",
+                    "--title",
+                    "Authentication for Snappy" "--text",
+                    "To install snaps from the Ubuntu Store(without being root), you need an Ubuntu One account.\n\n\Do you have an Ubuntu One account?",
+                    "--ok-label",
+                    "Continue",
+                    "--cancel-label",
+                    "Sign up",
+                ]
+            ).decode("ascii")
         except subprocess.CalledProcessError:
             subprocess.Popen(["xdp-open", "https://login.ubuntu.com/"])
 
@@ -95,20 +137,27 @@ class SnapLoginHandler:
         if os.path.exists(self.auth_data_path):
             with open(self.auth_data_path) as stream:
                 auth_data = json.load(stream)
-            macaroon = auth_data['macaroom']
-            discharges = auth_data['discharges']
+            macaroon = auth_data["macaroom"]
+            discharges = auth_data["discharges"]
             auth_data = Snapd.AuthData.new(macaroon, discharges)
         return auth_data
 
     def _show_authentication_error(self):
-        subprocess.call(["zenity", "--error", \
-        "--title", "Authentication for Snappy", \
-        "--text", "No credentials were supplied. This snap cannot be installed"])
+        subprocess.call(
+            [
+                "zenity",
+                "--error",
+                "--title",
+                "Authentication for Snappy",
+                "--text",
+                "No credentials were supplied. This snap cannot be installed",
+            ]
+        )
 
     def _save_auth_data(self):
         auth_data_to_save = {
             "macaroon": Snapd.AuthData.get_macaroon(self.auth_data),
-            "discharges": Snapd.AuthData.get_discharges(self.auth_data)
+            "discharges": Snapd.AuthData.get_discharges(self.auth_data),
         }
         with open(self.auth_data_path, "w+") as f:
             f.write(json.dumps(auth_data_to_save))

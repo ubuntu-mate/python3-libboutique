@@ -2,7 +2,6 @@ from typing import List
 
 
 class BasePackageService:
-
     def install_package(self, name):
         raise NotImplementedError("You must implement it in your class")
 
@@ -20,12 +19,8 @@ class BasePackageService:
             "args": exception.args,
             "code": exception.code,
             "domain": exception.domain,
-            "message": exception.message
+            "message": exception.message,
         }
 
     def _successful_message(self, action, package):
-        return {
-            "action": action,
-            "name": package,
-            "message": "success"
-        }
+        return {"action": action, "name": package, "message": "success"}

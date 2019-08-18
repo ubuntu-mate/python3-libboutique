@@ -16,6 +16,7 @@ class TestPackageKitService(unittest.TestCase):
            print(package)
            self.assertEqual(package, None)
     """
+
     def test_list_installed_packages(self):
         result = PackageKitService().list_installed_packages()
         for package in result:

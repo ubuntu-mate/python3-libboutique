@@ -2,7 +2,7 @@ import unittest
 import gi
 from unittest.mock import Mock, patch
 
-gi.require_version('Snapd', '1')
+gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
 from libboutique.services.snap.snap_service import SnapService
@@ -17,7 +17,7 @@ class TestSnapService(unittest.TestCase):
         self.assertNotEqual(package.get("name", None), None)
         self.assertEqual(package.get("package_type", None), "snap")
         self.assertNotEqual(package.get("version", None), None)
-        self.assertNotEqual(package.get("license", 1), 1) # The value expected is None
+        self.assertNotEqual(package.get("license", 1), 1)  # The value expected is None
         self.assertNotEqual(package.get("is_installed", None), None)
         self.assertNotEqual(package.get("installed_date", 1), 1)
         self.assertEqual(package.get("distro", None), "ubuntu")
@@ -34,10 +34,9 @@ class TestSnapService(unittest.TestCase):
             snap_client_mock.assert_called_once()
             snap_service.install_package(name="bw")
             snap_client = snap_service.snap_client
-            snap_client.install2_sync.assert_called_once_with(flags=0,
-                                                              name="bw",
-                                                              channel="stable",
-                                                              progress_callback=snap_service.progress_callback)
+            snap_client.install2_sync.assert_called_once_with(
+                flags=0, name="bw", channel="stable", progress_callback=snap_service.progress_callback
+            )
 
     def test_remove_package(self):
         """testRemovePackage"""
@@ -47,8 +46,7 @@ class TestSnapService(unittest.TestCase):
             snap_client_mock.assert_called_once()
             snap_service.remove_package(name="bw")
             snap_client = snap_service.snap_client
-            snap_client.remove_sync.assert_called_once_with(name="bw",
-                                                            progress_callback=snap_service.progress_callback)
+            snap_client.remove_sync.assert_called_once_with(name="bw", progress_callback=snap_service.progress_callback)
 
     def test_install_package_twice(self):
         """testInstallPackageTwice"""

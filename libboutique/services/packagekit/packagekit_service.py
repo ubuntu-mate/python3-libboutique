@@ -21,7 +21,7 @@ class PackageKitService(BasePackageService):
         self,
         progress: PackageKitGlib.Progress,
         progress_type: PackageKitGlib.ProgressType,
-        *user_data: Optional[object]
+        *user_data: Optional[object],
     ) -> None:
         if self.progress_publisher is None:
             return

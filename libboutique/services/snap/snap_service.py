@@ -2,7 +2,7 @@ import gi
 
 from typing import Dict, List
 
-gi.require_version("Snapd", '1')
+gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
 from libboutique.services.common.base_package_service import BasePackageService
@@ -24,6 +24,7 @@ class SnapService(BasePackageService):
         * help search for a snap using:
             * package name
     """
+
     def __init__(self, progress_publisher=None):
         self.snap_client = Snapd.Client().new()
         self.channel = "stable"
@@ -41,7 +42,7 @@ class SnapService(BasePackageService):
         for task in change.get_tasks():
             total += task.get_progress_total()
             done += task.get_progress_done()
-        percent = round((done/total) * 100)
+        percent = round((done / total) * 100)
         self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
     def install_package(self, name: str) -> str:
@@ -50,7 +51,9 @@ class SnapService(BasePackageService):
             of the package you wish to install
         """
         try:
-            if self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback):
+            if self.snap_client.install2_sync(
+                flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback
+            ):
                 return self._successful_message(action="install", package=name)
         except Exception as ex:
             return self._format_glib_error(exception=ex)
@@ -106,5 +109,5 @@ class SnapService(BasePackageService):
             installed_date=snap.get_install_date(),
             is_installed=True if snap.get_install_date() is not None else False,
             version_installed=_format_version(snap=snap) if snap.get_install_date() is not None else None,
-            price=snap.get_prices()
-           )
+            price=snap.get_prices(),
+        )

@@ -34,5 +34,5 @@ class ProgressPublisher(metaclass=Singleton):
         :param package:
         :param progress:  dict
         """
-        for origin,callback in self.subscribers.items():
+        for origin, callback in self.subscribers.items():
             callback(package, progress)

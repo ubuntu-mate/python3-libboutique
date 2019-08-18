@@ -2,6 +2,7 @@ from libboutique.metaclasses.singleton import Singleton
 from libboutique.publisher.progress_publisher import ProgressPublisher
 from libboutique.services.snap.snap_service import SnapService
 
+
 class CommandHandler(metaclass=Singleton):
     """CommandHandler"""
 
@@ -24,6 +25,6 @@ class CommandHandler(metaclass=Singleton):
 
     def list_installed_packages(self):
         list_of_packages = {}
-        list_of_packages.update({"curated": None}) # TODO Change None for implementation for curated
+        list_of_packages.update({"curated": None})  # TODO Change None for implementation for curated
         list_of_packages.update({"snap": self.snap_service.list_installed_packages()})
-        list_of_packages.update({"apt": None}) # TODO  Change None for implementation for apt
+        list_of_packages.update({"apt": None})  # TODO  Change None for implementation for apt

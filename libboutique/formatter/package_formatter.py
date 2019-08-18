@@ -1,12 +1,27 @@
-class PackageFormatter():
+class PackageFormatter:
     def __init__(self):
         pass
 
     @staticmethod
-    def format_package_informations(id_package, name, platform, source, package_type,
-                                    version, is_installed, dev_name=None, icon=None,
-                                    media=None, summary=None, dependencies=None, version_installed=None,
-                                    installed_date=None, distro="ubuntu", license=None, price=None):
+    def format_package_informations(
+        id_package,
+        name,
+        platform,
+        source,
+        package_type,
+        version,
+        is_installed,
+        dev_name=None,
+        icon=None,
+        media=None,
+        summary=None,
+        dependencies=None,
+        version_installed=None,
+        installed_date=None,
+        distro="ubuntu",
+        license=None,
+        price=None,
+    ):
         """format_package_informations
 
         Build data structure to communicate from
@@ -56,5 +71,5 @@ class PackageFormatter():
             "installed_date": installed_date,
             "distro": distro,
             "license": license,
-            "price": price
+            "price": price,
         }
