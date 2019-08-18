@@ -5,3 +5,5 @@
 **/.ropeproject
 .idea/
 .venv
+.coverage
+*.egg-info/
