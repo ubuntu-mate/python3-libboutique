@@ -1,2 +1,4 @@
+pycairo
+PyGObject
 coverage
 pylint
