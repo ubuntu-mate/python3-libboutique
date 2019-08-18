@@ -87,7 +87,7 @@ class SnapService(BasePackageService):
         """
         return [self._extract_snap_to_dict(snap) for snap in snap_array]
 
-    def _extract_snap_to_dict(self, snap: Snapd.Package) -> Dict:
+    def _extract_snap_to_dict(self, snap) -> Dict:
         """
             Use Package Formatter to make sure
             all packages has the same object structure ( dict or json _
