@@ -1,6 +1,0 @@
-README.md
-setup.py
-python3_libboutique.egg-info/PKG-INFO
-python3_libboutique.egg-info/SOURCES.txt
-python3_libboutique.egg-info/dependency_links.txt
-python3_libboutique.egg-info/top_level.txt
