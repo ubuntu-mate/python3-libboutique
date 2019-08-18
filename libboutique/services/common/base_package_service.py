@@ -1,7 +1,4 @@
-class BasePackageService():
-
-    def __init__(self):
-        pass
+class BasePackageService:
 
     def install_package(self, name):
         raise NotImplementedError("You must implement it in your class")
