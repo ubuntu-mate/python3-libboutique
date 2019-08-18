@@ -1,5 +1,7 @@
 import gi
 
+from typing import Dict, List
+
 gi.require_version("Snapd", '1')
 from gi.repository import Snapd
 
@@ -7,16 +9,33 @@ from libboutique.services.common.base_package_service import BasePackageService
 from libboutique.formatter.package_formatter import PackageFormatter
 
 
-class SnapService(BasePackageService):
+def _format_version(snap):
+    return "{version}-{revision}".format(version=snap.get_version(), revision=snap.get_revision())
 
+
+class SnapService(BasePackageService):
+    """
+        Interface with PyObject Snapd.
+
+        it takes care of :
+        * install snaps
+        * list installed snaps
+        * remove a snap
+        * help search for a snap using:
+            * package name
+    """
     def __init__(self, progress_publisher=None):
         self.snap_client = Snapd.Client().new()
         self.channel = "stable"
         self.package_type = "snap"
         self.progress_publisher = progress_publisher
 
-    def progress_callback(self, client, change, deprecated, user_data):
-        if self.progress_publisher is None: return
+    def progress_callback(self, client: object, change: object, deprecated, user_data) -> None:
+        """
+            returns percent total and done
+        """
+        if self.progress_publisher is None:
+            return
         total = 0
         done = 0
         for task in change.get_tasks():
@@ -63,13 +82,10 @@ class SnapService(BasePackageService):
             platform=None,
             package_type=self.package_type,
             summary=snap.get_summary(),
-            version=self.__format_version(snap=snap),
+            version=_format_version(snap=snap),
             license=snap.get_license(),
             installed_date=snap.get_install_date(),
             is_installed=True if snap.get_install_date() is not None else False,
-            version_installed=self.__format_version(snap=snap) if snap.get_install_date() is not None else None,
+            version_installed=_format_version(snap=snap) if snap.get_install_date() is not None else None,
             price=snap.get_prices()
            )
-
-    def __format_version(self, snap):
-        return "{version}-{revision}".format(version=snap.get_version(), revision=snap.get_revision())
