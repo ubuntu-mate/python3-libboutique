@@ -4,7 +4,6 @@ from unittest.mock import Mock, patch
 
 gi.require_version('Snapd', '1')
 from gi.repository import Snapd
-from gi.repository import GLib
 
 from libboutique.services.snap.snap_service import SnapService
 
@@ -82,7 +81,7 @@ class TestSnapService(unittest.TestCase):
 
     def test_retrieve_installed_package(self):
         snap_service = SnapService(progress_publisher=None)
-        list_installed_packages = snap_service.get_installed_package()
+        list_installed_packages = snap_service.list_installed_packages()
         self.assertIsInstance(list_installed_packages, list)
         for package in list_installed_packages:
             self.validate_package_information_dict(package=package)
