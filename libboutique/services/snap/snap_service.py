@@ -44,35 +44,54 @@ class SnapService(BasePackageService):
         percent = round((done/total) * 100)
         self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
-    def install_package(self, name):
+    def install_package(self, name: str) -> str:
+        """
+            Install a package providing it the name
+            of the package you wish to install
+        """
         try:
             if self.snap_client.install2_sync(flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback):
                 return self._successful_message(action="install", package=name)
         except Exception as ex:
             return self._format_glib_error(exception=ex)
 
-    def remove_package(self, name):
+    def remove_package(self, name: str) -> str:
+        """
+            Remove a package using its name
+        """
         try:
             if self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback):
                 return self._successful_message(action="remove", package=name)
         except Exception as ex:
             return self._format_glib_error(exception=ex)
 
-    def get_installed_package(self):
+    def get_installed_package(self) -> List[Dict]:
+        """
+            List the packages that are installed on
+            this machine
+        """
         installed_snaps = self.snap_client.get_snaps_sync(flags=0, names=None)
-        return self._create_dict_from_array(snap_array=installed_snaps)
+        return self._create_array_dicts_from_array(snap_array=installed_snaps)
 
-    def retrieve_package_information_by_name(self, name):
+    def retrieve_package_information_by_name(self, name: str) -> List[Dict]:
+        """
+            Look for packages using  a name provided
+        """
         snap = self.snap_client.find_sync(flags=Snapd.FindFlags(1), query=name)
-        return self._create_dict_from_array(snap[0]) # ( [ Snaps ], suggested_currency: )
+        return self._create_array_dicts_from_array(snap[0])  # ( [ Snaps ], suggested_currency: )
 
-    def _create_dict_from_array(self, snap_array):
-        packages = []
-        for snap in snap_array:
-            packages.append(self._extract_snap_to_dict(snap=snap))
-        return packages
+    def _create_array_dicts_from_array(self, snap_array: List) -> List:
+        """
+            Extract information from the package
+            in a normalized way
+        """
+        return [self._extract_snap_to_dict(snap) for snap in snap_array]
 
-    def _extract_snap_to_dict(self, snap):
+    def _extract_snap_to_dict(self, snap: Snapd.Package) -> Dict:
+        """
+            Use Package Formatter to make sure
+            all packages has the same object structure ( dict or json _
+        """
         return PackageFormatter.format_package_informations(
             id_package=snap.get_id(),
             name=snap.get_name(),
