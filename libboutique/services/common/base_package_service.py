@@ -1,3 +1,6 @@
+from typing import List
+
+
 class BasePackageService:
 
     def install_package(self, name):
