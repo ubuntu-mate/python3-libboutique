@@ -6,10 +6,9 @@ gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
 from libboutique.services.common.base_package_service import BasePackageService
-from libboutique.formatter.package_formatter import PackageFormatter
 
 
-def _format_version(snap):
+def _format_snap_version(snap):
     return "{version}-{revision}".format(version=snap.get_version(), revision=snap.get_revision())
 
 
