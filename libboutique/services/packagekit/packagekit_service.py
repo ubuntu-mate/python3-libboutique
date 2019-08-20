@@ -83,8 +83,6 @@ class PackageKitService(BasePackageService):
             strings or Enums. This function
             has for purpose to extract those embedded informations
         :doc: https://lazka.github.io/pgi-docs/#PackageKitGlib-1.0/classes/Package.html#PackageKitGlib.Package
-        :param package:
-        :return TBD -> TODO find out what can be extracted
         """
         # TODO Extract data from the Package Data
         pass
