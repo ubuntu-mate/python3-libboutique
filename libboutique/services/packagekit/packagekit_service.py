@@ -1,7 +1,6 @@
-from typing import Callable, List, Optional
+from typing import List, Optional, Iterable
 
 from libboutique.services.common.base_package_service import BasePackageService
-from libboutique.formatter.package_formatter import PackageFormatter
 
 import gi
 
@@ -11,11 +10,17 @@ from gi.repository import PackageKitGlib
 
 class PackageKitService(BasePackageService):
     """
+        Service that takes care of:
+        * Install a package
+        * List installed packages
+        * Uninstall a package
+        * Search for a package
     """
 
     def __init__(self, progress_publisher=None):
+        super().__init__(progress_publisher=progress_publisher)
+        self.package_type = "apt"
         self.packagekit_client = PackageKitGlib.Client().new()
-        self.progress_publisher = progress_publisher
 
     def _progress_callback(
         self,
@@ -23,22 +28,28 @@ class PackageKitService(BasePackageService):
         progress_type: PackageKitGlib.ProgressType,
         *user_data: Optional[object],
     ) -> None:
+        """
+        """
         if self.progress_publisher is None:
             return
 
     def list_installed_packages(self) -> List:
         """
+            Takes care of retrieving and
+            returning a list of install packages
         """
-        return [
-            p
-            for p in self.packagekit_client.get_packages(
-                filters=PackageKitGlib.FilterEnum.from_string("INSTALLED"),
-                cancellable=None,
-                progress_callback=self._progress_callback,  # TODO Change for an internal callback
-                progress_user_data=(),  # TODO Change for user_data sent from outside
-            ).get_package_array()
-            if "installed" in p.get_data()
-        ]
+        return self._create_dict_from_array(
+            package_iterable=(
+                p
+                for p in self.packagekit_client.get_packages(
+                    filters=PackageKitGlib.FilterEnum.from_string("INSTALLED"),
+                    cancellable=None,
+                    progress_callback=self._progress_callback,  # TODO Change for an internal callback
+                    progress_user_data=(),  # TODO Change for user_data sent from outside
+                ).get_package_array()
+                if "installed" in p.get_data()
+            )
+        )
 
     def install_package(self, name: str):
         # TODO Requires package_name;version;arch;distro as a string to install
@@ -47,34 +58,24 @@ class PackageKitService(BasePackageService):
         except Exception as ex:
             print(ex)
 
-    def _create_dict_from_array(self, package_array):
-        """_create_dict_from_array
-        extract data from each Package found
-        :param package_array: [ PackageKitGlib.Package, ...]
-        :returns : list of dictionnaries with all the informations in the Package
+    def _create_dict_from_array(self, package_iterable: Iterable) -> List:
         """
-        packages = []
-        for package in package_array:
-            packages.append(self._extract_package_to_dict(package=package))
-        return packages
+            extract data from each Package provided
+        """
+        return [self._extract_package_to_dict(package=p) for p in package_iterable]
 
-    @staticmethod
-    def _extract_package_to_dict(package):
-        """_extract_package_to_dict
-        Use the formatter to return a dictionnary
-        filled all the informations found in the Package object
-        :param package: PackageKitGlib.Package
-        :returns dict: Dictionnary of the information in the Package
+    def _extract_package_to_dict(self, package):
         """
-        return PackageFormatter.format_package_informations(
-            id_package=package.get_id(),
-            name=package.get_name(),
-            platform=package.get_arch(),
-            source=package.get_data(),
-            package_type="apt",  # TODO Should in a variable ( find package manager )
-            version=package.get_version(),
-            is_installed=package.get_data(),
-        )
+            Use the formatter to return a dictionnary
+            filled all the informations found in the Package object
+        """
+        return {
+            **super()._extract_package_to_dict(package),
+            "arch": package.get_arch(),
+            "source": package.get_data(),
+            "version": package.get_version(),
+            "is_installed": "installed" in package.get_data(),
+        }
 
     def _extract_information_from_strings(self, package):
         """__extract_information_from_strings
