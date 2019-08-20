@@ -2,3 +2,4 @@ pycairo
 PyGObject
 coverage
 pylint
+distro
