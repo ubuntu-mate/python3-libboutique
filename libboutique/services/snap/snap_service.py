@@ -25,10 +25,10 @@ class SnapService(BasePackageService):
     """
 
     def __init__(self, progress_publisher=None):
+        super().__init__(progress_publisher=progress_publisher)
         self.snap_client = Snapd.Client().new()
-        self.channel = "stable"
+        self._channel = "stable"
         self.package_type = "snap"
-        self.progress_publisher = progress_publisher
 
     def progress_callback(self, client: object, change: object, deprecated, user_data) -> None:
         """
@@ -51,7 +51,7 @@ class SnapService(BasePackageService):
         """
         try:
             if self.snap_client.install2_sync(
-                flags=0, name=name, channel=self.channel, progress_callback=self.progress_callback
+                flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
             ):
                 return self._successful_message(action="install", package=name)
         except Exception as ex:
@@ -87,26 +87,20 @@ class SnapService(BasePackageService):
             Extract information from the package
             in a normalized way
         """
-        return [self._extract_snap_to_dict(snap) for snap in snap_array]
+        return [self._extract_package_to_dict(snap) for snap in snap_array]
 
-    def _extract_snap_to_dict(self, snap) -> Dict:
+    def _extract_package_to_dict(self, package) -> Dict:
         """
             Use Package Formatter to make sure
             all packages has the same object structure ( dict or json _
         """
-        return PackageFormatter.format_package_informations(
-            id_package=snap.get_id(),
-            name=snap.get_name(),
-            dev_name=snap.get_developer(),
-            icon=snap.get_icon(),
-            source=self.package_type,
-            platform=None,
-            package_type=self.package_type,
-            summary=snap.get_summary(),
-            version=_format_version(snap=snap),
-            license=snap.get_license(),
-            installed_date=snap.get_install_date(),
-            is_installed=True if snap.get_install_date() is not None else False,
-            version_installed=_format_version(snap=snap) if snap.get_install_date() is not None else None,
-            price=snap.get_prices(),
-        )
+        return {
+            **super()._extract_package_to_dict(package=package),
+            "dev_name": package.get_developer(),
+            "icon": package.get_icon(),
+            "license": package.get_license(),
+            "version": _format_snap_version(snap=package),
+            "installed_date": package.get_install_date(),
+            "is_installed": True if package.get_install_date() is not None else False,
+            "price": package.get_prices(),
+        }
