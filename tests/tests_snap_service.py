@@ -13,16 +13,13 @@ class TestSnapService(unittest.TestCase):
 
     def validate_package_information_dict(self, package):
         self.assertIsInstance(package, dict)
-        self.assertNotEqual(package.get("id", None), None)
+        self.assertNotEqual(package.get("package_id", None), None)
         self.assertNotEqual(package.get("name", None), None)
-        self.assertEqual(package.get("package_type", None), "snap")
+        self.assertEqual(package.get("source", None), "snap")
         self.assertNotEqual(package.get("version", None), None)
         self.assertNotEqual(package.get("license", 1), 1)  # The value expected is None
         self.assertNotEqual(package.get("is_installed", None), None)
-        self.assertNotEqual(package.get("installed_date", 1), 1)
-        self.assertEqual(package.get("distro", None), "ubuntu")
-        self.assertNotEqual(package.get("version_installed", 1), 1)
-        self.assertNotEqual(package.get("platform", 1), 1)
+        self.assertEqual(package.get("distribution", None), "ubuntu 19.04")
         self.assertNotEqual(package.get("price", None), None)
         self.assertNotEqual(package.get("summary", None), None)
 
