@@ -52,11 +52,29 @@ class PackageKitService(BasePackageService):
         )
 
     def install_package(self, name: str):
-        # TODO Requires package_name;version;arch;distro as a string to install
+        """
+            PackageKit expects a certain format
+            of string.
+
+            ***********FORMAT_EXPECTED**********
+            ####################################
+            ##package_name;version;arch;distro##
+            ####################################
+            ************************************
+
+            Transaction Flags Docs: http://tiny.cc/dynhbz
+
+        """
         try:
-            self.packagekit_client.install_package()
-        except Exception as ex:
-            print(ex)
+            self.packagekit_client.install_package(
+                transaction_flag=1, # Trusted
+                package_ids=name,
+                callable=None,
+                progress_callback=self._progress_callback,
+                progress_user_data=None,
+            )
+        except PackageKitGlib.Glib.Error as ex:
+           print(ex)
 
     def _create_dict_from_array(self, package_iterable: Iterable) -> List:
         """
