@@ -16,8 +16,19 @@ class TestPackageKitService(unittest.TestCase):
            print(package)
            self.assertEqual(package, None)
     """
+    def assert_package_structure(self, package):
+        self.assertNotEqual(package.get('package_id'), None)
+        self.assertNotEqual(package.get('name'), None)
+        self.assertNotEqual(package.get('distribution'), None)
+        self.assertNotEqual(package.get('version'), None)
+        self.assertEqual(package.get('source'), "apt")
+        self.assertNotEqual(package.get('summary'), None)
+        self.assertNotEqual(package.get('arch'), None)
+        self.assertNotEqual(package.get('data'), None)
+        self.assertNotEqual(package.get('is_installed'), None)
 
     def test_list_installed_packages(self):
-        result = PackageKitService().list_installed_packages()
-        for package in result:
-            self.assertTrue("installed" in package.get_data())
+        install_packages = PackageKitService().list_installed_packages()
+        for package in install_packages:
+            self.assert_package_structure(package=package)
+            self.assertEqual(package['is_installed'], True)
