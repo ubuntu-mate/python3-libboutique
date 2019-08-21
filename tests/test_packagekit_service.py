@@ -18,19 +18,20 @@ class TestPackageKitService(unittest.TestCase):
            print(package)
            self.assertEqual(package, None)
     """
+
     def assert_package_structure(self, package: Dict) -> None:
         """
             Assert that the structure is as intended for now
         """
-        self.assertNotEqual(package.get('package_id'), None)
-        self.assertNotEqual(package.get('name'), None)
-        self.assertNotEqual(package.get('distribution'), None)
-        self.assertNotEqual(package.get('version'), None)
-        self.assertEqual(package.get('source'), "apt")
-        self.assertNotEqual(package.get('summary'), None)
-        self.assertNotEqual(package.get('arch'), None)
-        self.assertNotEqual(package.get('data'), None)
-        self.assertNotEqual(package.get('is_installed'), None)
+        self.assertNotEqual(package.get("package_id"), None)
+        self.assertNotEqual(package.get("name"), None)
+        self.assertNotEqual(package.get("distribution"), None)
+        self.assertNotEqual(package.get("version"), None)
+        self.assertEqual(package.get("source"), "apt")
+        self.assertNotEqual(package.get("summary"), None)
+        self.assertNotEqual(package.get("arch"), None)
+        self.assertNotEqual(package.get("data"), None)
+        self.assertNotEqual(package.get("is_installed"), None)
 
     def test_list_installed_packages(self):
         """
@@ -41,4 +42,4 @@ class TestPackageKitService(unittest.TestCase):
         self.assertTrue(len(install_packages) >= 1000)
         for package in install_packages:
             self.assert_package_structure(package=package)
-            self.assertEqual(package['is_installed'], True)
+            self.assertEqual(package["is_installed"], True)
