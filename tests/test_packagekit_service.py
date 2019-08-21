@@ -1,6 +1,8 @@
 import gi
 import unittest
 
+from typing import Dict
+
 gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
 
@@ -16,7 +18,10 @@ class TestPackageKitService(unittest.TestCase):
            print(package)
            self.assertEqual(package, None)
     """
-    def assert_package_structure(self, package):
+    def assert_package_structure(self, package: Dict) -> None:
+        """
+            Assert that the structure is as intended for now
+        """
         self.assertNotEqual(package.get('package_id'), None)
         self.assertNotEqual(package.get('name'), None)
         self.assertNotEqual(package.get('distribution'), None)
@@ -28,7 +33,12 @@ class TestPackageKitService(unittest.TestCase):
         self.assertNotEqual(package.get('is_installed'), None)
 
     def test_list_installed_packages(self):
+        """
+            Make sure that the result is a list of dict
+            and that they are all tagged as installed
+        """
         install_packages = PackageKitService().list_installed_packages()
+        self.assertTrue(len(install_packages) >= 1000)
         for package in install_packages:
             self.assert_package_structure(package=package)
             self.assertEqual(package['is_installed'], True)
