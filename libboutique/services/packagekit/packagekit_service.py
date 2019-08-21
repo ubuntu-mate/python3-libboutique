@@ -72,8 +72,7 @@ class PackageKitService(BasePackageService):
         return {
             **super()._extract_package_to_dict(package),
             "arch": package.get_arch(),
-            "source": package.get_data(),
-            "version": package.get_version(),
+            "data": package.get_data(),
             "is_installed": "installed" in package.get_data(),
         }
 
