@@ -1,5 +1,4 @@
 import gi
-import unittest
 
 from typing import Dict
 
@@ -9,7 +8,7 @@ from gi.repository import PackageKitGlib
 from libboutique.services.packagekit.packagekit_service import PackageKitService
 
 
-class TestPackageKitService(unittest.TestCase):
+class TestPackageKitService:
     """ def test_search_packages(self):
        package = "flat"
        package_kit_service = PackageKitService()
