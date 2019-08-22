@@ -12,5 +12,6 @@ setup_dev:
 	source .venv/bin/activate && pip install -r requirements.txt
 
 unittest:
-	coverage run -m unittest discover tests -v
+	coverage run -m pytest
 	coverage report
+	coverage html

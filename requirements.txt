@@ -1,5 +1,6 @@
-pycairo
-PyGObject
 coverage
 pylint
+pytest
+pycairo
+PyGObject
 distro
