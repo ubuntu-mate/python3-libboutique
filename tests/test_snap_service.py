@@ -1,4 +1,3 @@
-import unittest
 import gi
 from unittest.mock import Mock, patch
 
@@ -8,20 +7,20 @@ from gi.repository import Snapd
 from libboutique.services.snap.snap_service import SnapService
 
 
-class TestSnapService(unittest.TestCase):
+class TestSnapService:
     """TestSnapService"""
 
     def validate_package_information_dict(self, package):
-        self.assertIsInstance(package, dict)
-        self.assertNotEqual(package.get("package_id", None), None)
-        self.assertNotEqual(package.get("name", None), None)
-        self.assertEqual(package.get("source", None), "snap")
-        self.assertNotEqual(package.get("version", None), None)
-        self.assertNotEqual(package.get("license", 1), 1)  # The value expected is None
-        self.assertNotEqual(package.get("is_installed", None), None)
-        self.assertEqual(package.get("distribution", None), "ubuntu 19.04")
-        self.assertNotEqual(package.get("price", None), None)
-        self.assertNotEqual(package.get("summary", None), None)
+        assert isinstance(package, dict)
+        assert package.get("package_id") is not None
+        assert package.get("name") is not None
+        assert package.get("source") == "snap"
+        assert package.get("version") is not None
+        assert package.get("license") is None  # The value expected is None
+        assert package.get("is_installed") is not None
+        assert package.get("distribution") == "ubuntu 19.04"
+        assert package.get("price") is not None
+        assert package.get("summary") is not None
 
     def test_install_package(self):
         """testInstallPackage"""
@@ -50,29 +49,29 @@ class TestSnapService(unittest.TestCase):
         snap_service = SnapService(progress_publisher=None)
         snap_service.install_package(name="bw")
         result = snap_service.install_package(name="bw")
-        self.assertEqual(result.get("code"), 14)
-        self.assertEqual(result.get("message"), 'snap "bw" is already installed')
-        self.assertEqual(result.get("args"), ('snap "bw" is already installed',))
-        self.assertEqual(result.get("domain"), "snapd-error-quark")
+        assert result.get("code") == 14
+        assert result.get("message") == 'snap "bw" is already installed'
+        assert result.get("args") == ('snap "bw" is already installed',)
+        assert result.get("domain") == "snapd-error-quark"
 
     def test_install_new_package(self):
         """testInstallNewPackage"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.remove_package(name="bw")
         result = snap_service.install_package(name="bw")
-        self.assertEqual(result.get("action"), "install")
-        self.assertEqual(result.get("message"), "success")
-        self.assertEqual(result.get("name"), "bw")
+        assert result.get("action") == "install"
+        assert result.get("message") == "success"
+        assert result.get("name") == "bw"
 
     def test_remove_package_twice(self):
         """testRemoveTwicePackage"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.remove_package(name="bw")
         result = snap_service.remove_package(name="bw")
-        self.assertEqual(result.get("code"), 15)
-        self.assertEqual(result.get("message"), 'snap "bw" is not installed')
-        self.assertEqual(result.get("args"), ('snap "bw" is not installed',))
-        self.assertEqual(result.get("domain"), "snapd-error-quark")
+        assert result.get("code") == 15
+        assert result.get("message") == 'snap "bw" is not installed'
+        assert result.get("args") == ('snap "bw" is not installed',)
+        assert result.get("domain") == "snapd-error-quark"
 
     def test_retrieve_installed_package(self):
         snap_service = SnapService(progress_publisher=None)
@@ -87,6 +86,3 @@ class TestSnapService(unittest.TestCase):
         for package in package_info:
             self.validate_package_information_dict(package=package)
 
-
-if __name__ == "__main__":
-    unittest.main()
