@@ -22,15 +22,15 @@ class TestPackageKitService:
         """
             Assert that the structure is as intended for now
         """
-        self.assertNotEqual(package.get("package_id"), None)
-        self.assertNotEqual(package.get("name"), None)
-        self.assertNotEqual(package.get("distribution"), None)
-        self.assertNotEqual(package.get("version"), None)
-        self.assertEqual(package.get("source"), "apt")
-        self.assertNotEqual(package.get("summary"), None)
-        self.assertNotEqual(package.get("arch"), None)
-        self.assertNotEqual(package.get("data"), None)
-        self.assertNotEqual(package.get("is_installed"), None)
+        assert package.get("package_id") is not None
+        assert package.get("name") is not None
+        assert package.get("distribution") is not None
+        assert package.get("version") is not None
+        assert package.get("source") == "apt"
+        assert package.get("summary") is not None
+        assert package.get("arch") is not None
+        assert package.get("data") is not None
+        assert package.get("is_installed") is not None
 
     def test_list_installed_packages(self):
         """
@@ -38,7 +38,8 @@ class TestPackageKitService:
             and that they are all tagged as installed
         """
         install_packages = PackageKitService().list_installed_packages()
-        self.assertTrue(len(install_packages) >= 1000)
+        assert len(install_packages) >= 1000
         for package in install_packages:
             self.assert_package_structure(package=package)
-            self.assertEqual(package["is_installed"], True)
+            assert package["is_installed"]
+

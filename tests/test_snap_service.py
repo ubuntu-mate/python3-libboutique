@@ -16,7 +16,7 @@ class TestSnapService:
         assert package.get("name") is not None
         assert package.get("source") == "snap"
         assert package.get("version") is not None
-        assert package.get("license") is None  # The value expected is None
+        assert package.get("license", 1) != 1  # Shouldn't be empty
         assert package.get("is_installed") is not None
         assert package.get("distribution") == "ubuntu 19.04"
         assert package.get("price") is not None
@@ -76,7 +76,7 @@ class TestSnapService:
     def test_retrieve_installed_package(self):
         snap_service = SnapService(progress_publisher=None)
         list_installed_packages = snap_service.list_installed_packages()
-        self.assertIsInstance(list_installed_packages, list)
+        assert isinstance(list_installed_packages, list)
         for package in list_installed_packages:
             self.validate_package_information_dict(package=package)
 
