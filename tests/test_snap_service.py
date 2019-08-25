@@ -79,6 +79,7 @@ class TestSnapService:
         assert isinstance(list_installed_packages, list)
         for package in list_installed_packages:
             self.validate_package_information_dict(package=package)
+            assert package.get("is_installed", False)
 
     def test_retrieve_package_information(self):
         snap_service = SnapService(progress_publisher=None)
