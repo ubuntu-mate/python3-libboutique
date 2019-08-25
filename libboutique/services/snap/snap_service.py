@@ -1,3 +1,5 @@
+import logging
+
 import gi
 
 from typing import Dict, List
@@ -53,8 +55,10 @@ class SnapService(BasePackageService):
             if self.snap_client.install2_sync(
                 flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
             ):
+                logging.info("Installed {name}".format(**locals()))
                 return self._successful_message(action="install", package=name)
-        except Exception as ex:
+        except Exception as ex:  # TODO Investigate the Exception to put instead
+            logging.exception("Error while installed {name}: {ex}".format(name=name, ex=ex))
             return self._format_glib_error(exception=ex)
 
     def remove_package(self, name: str) -> str:
@@ -63,8 +67,10 @@ class SnapService(BasePackageService):
         """
         try:
             if self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback):
+                logging.info("Removed {name}".format(**locals()))
                 return self._successful_message(action="remove", package=name)
-        except Exception as ex:
+        except Exception as ex:  # TODO Investigate the Exception to put instead
+            logging.exception("Error while removing {name}: {ex}".format(name=name, ex=ex))
             return self._format_glib_error(exception=ex)
 
     def list_installed_packages(self) -> List[Dict]:
