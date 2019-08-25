@@ -42,4 +42,3 @@ class TestPackageKitService:
         for package in install_packages:
             self.assert_package_structure(package=package)
             assert package["is_installed"]
-

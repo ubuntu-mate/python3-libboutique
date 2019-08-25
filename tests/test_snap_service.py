@@ -86,4 +86,3 @@ class TestSnapService:
         package_info = snap_service.retrieve_package_information_by_name(name="bw")
         for package in package_info:
             self.validate_package_information_dict(package=package)
-

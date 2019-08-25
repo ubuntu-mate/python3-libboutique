@@ -68,7 +68,7 @@ class PackageKitService(BasePackageService):
         """
         try:
             self.packagekit_client.install_package(
-                transaction_flag=1, # Trusted
+                transaction_flag=1,  # Trusted
                 package_ids=name,
                 callable=None,
                 progress_callback=self._progress_callback,
