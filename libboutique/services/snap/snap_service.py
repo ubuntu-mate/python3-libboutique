@@ -10,10 +10,6 @@ from gi.repository import Snapd
 from libboutique.services.common.base_package_service import BasePackageService
 
 
-def _format_snap_version(snap):
-    return "{version}-{revision}".format(version=snap.get_version(), revision=snap.get_revision())
-
-
 class SnapService(BasePackageService):
     """
         Interface with PyObject Snapd.
@@ -105,7 +101,7 @@ class SnapService(BasePackageService):
             "dev_name": package.get_developer(),
             "icon": package.get_icon(),
             "license": package.get_license(),
-            "version": _format_snap_version(snap=package),
+            "version": package.get_version(),
             "installed_date": package.get_install_date(),
             "is_installed": True if package.get_install_date() is not None else False,
             "price": package.get_prices(),
