@@ -1,3 +1,4 @@
+import logging
 from typing import List, Optional, Iterable
 
 from libboutique.services.common.base_package_service import BasePackageService
@@ -74,7 +75,8 @@ class PackageKitService(BasePackageService):
                 progress_user_data=None,
             )
         except PackageKitGlib.Glib.Error as ex:
-           print(ex)
+            logging.exception("Error while installing {name}: {ex}".format(name=name, ex=ex))
+            return self._format_glib_error(exception=ex)
 
     def _create_dict_from_array(self, package_iterable: Iterable) -> List:
         """
