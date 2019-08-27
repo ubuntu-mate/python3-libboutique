@@ -47,7 +47,7 @@ class PackageKitService(BasePackageService):
             Takes care of retrieving and
             returning a list of install packages
         """
-        return self._create_dict_from_array(
+        return self._create_dict_array_from_package_array(
             package_iterable=(
                 p
                 for p in self.packagekit_client.get_packages(

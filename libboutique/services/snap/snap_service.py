@@ -5,6 +5,7 @@ from libboutique.common.transaction_feedback_decorator import TransactionFeedbac
 from libboutique.common.transaction_actions import TransactionActionsEnum
 
 import gi
+
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 

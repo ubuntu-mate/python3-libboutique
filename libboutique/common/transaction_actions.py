@@ -6,4 +6,3 @@ class TransactionActionsEnum(Enum):
     REMOVE = "remove"
     SEARCH = "search"
     LIST_INSTALLED = "list"
-

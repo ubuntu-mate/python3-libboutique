@@ -3,12 +3,7 @@ from functools import wraps
 
 
 def format_glib_error(exception):
-    return {
-        "args": exception.args,
-        "code": exception.code,
-        "domain": exception.domain,
-        "message": exception.message,
-    }
+    return {"args": exception.args, "code": exception.code, "domain": exception.domain, "message": exception.message}
 
 
 def successful_message(action, arguments):
@@ -16,7 +11,6 @@ def successful_message(action, arguments):
 
 
 class TransactionFeedbackDecorator:
-
     def __init__(self, action):
         self.action = action
 
@@ -30,6 +24,5 @@ class TransactionFeedbackDecorator:
             except Exception as ex:
                 logging.exception("Error: {self.action} - {args} & {kwargs}: {ex}".format(**locals()))
                 return format_glib_error(exception=ex)
+
         return wrapper
-
-

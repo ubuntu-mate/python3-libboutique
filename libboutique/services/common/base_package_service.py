@@ -34,4 +34,3 @@ class BasePackageService:
             "source": self.package_type,
             "summary": package.get_summary(),
         }
-
