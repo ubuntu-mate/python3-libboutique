@@ -17,15 +17,13 @@ class PackageKitService(BasePackageService):
         * List installed packages
         * Uninstall a package
         * Search for a package
+
+        ***********PACKAGE_FORMAT_EXPECTED**********
+        ############################################
+        ##### package_name;version;arch;distro #####
+        ############################################
+        ********************************************
     """
-
-    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
-    def remove_package(self, name: str):
-        pass
-
-    def retrieve_package_information_by_name(self, name: str):
-        pass
-
     def __init__(self, progress_publisher=None):
         super().__init__(progress_publisher=progress_publisher)
         self.package_type = "apt"
@@ -60,20 +58,26 @@ class PackageKitService(BasePackageService):
             )
         )
 
+    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
+    def remove_package(self, name: str):
+        """
+            Transaction Flags Docs: http://tiny.cc/dynhbz
+        """
+        self.packagekit_client.remove_packages(transaction_flags=1,
+                                               package_ids=name,
+                                               allow_deps=False,
+                                               autoremove=False,
+                                               cancellable=None,
+                                               progress_callback=self._progress_callback,
+                                               progress_callback_user_data=()
+                                               )
+
     @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str):
         """
             PackageKit expects a certain format
             of string.
-
-            ***********FORMAT_EXPECTED**********
-            ####################################
-            ##package_name;version;arch;distro##
-            ####################################
-            ************************************
-
             Transaction Flags Docs: http://tiny.cc/dynhbz
-
         """
         self.packagekit_client.install_package(
             transaction_flag=1,  # Trusted
@@ -83,7 +87,23 @@ class PackageKitService(BasePackageService):
             progress_user_data=None,
         )
 
-    def _create_dict_from_array(self, package_iterable: Iterable) -> List:
+    def retrieve_package_information_by_name(self, name: str) -> List:
+        """
+            Return everything from a name provided
+        """
+        return self._create_dict_array_from_package_array(
+            package_iterable=(
+                p
+                for p in self.packagekit_client.get_packages(
+                    filters=PackageKitGlib.FilterEnum.from_string("NONE"),
+                    cancellable=None,
+                    progress_callback=self._progress_callback,
+                    progress_user_data=(),
+                ).get_package_array()
+            )
+        )
+
+    def _create_dict_array_from_package_array(self, package_iterable: Iterable) -> List:
         """
             extract data from each Package provided
         """
