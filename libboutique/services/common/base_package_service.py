@@ -35,13 +35,3 @@ class BasePackageService:
             "summary": package.get_summary(),
         }
 
-    def _format_glib_error(self, exception):
-        return {
-            "args": exception.args,
-            "code": exception.code,
-            "domain": exception.domain,
-            "message": exception.message,
-        }
-
-    def _successful_message(self, action, package):
-        return {"action": action, "name": package, "message": "success"}
