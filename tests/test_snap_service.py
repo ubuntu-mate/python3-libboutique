@@ -61,7 +61,7 @@ class TestSnapService:
         result = snap_service.install_package(name="bw")
         assert result.get("action") == "install"
         assert result.get("message") == "success"
-        assert result.get("name") == "bw"
+        assert isinstance(result.get("arguments"), tuple)
 
     def test_remove_package_twice(self):
         """testRemoveTwicePackage"""
