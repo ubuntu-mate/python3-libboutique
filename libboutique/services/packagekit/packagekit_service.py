@@ -1,7 +1,8 @@
-import logging
 from typing import List, Optional, Iterable
 
 from libboutique.services.common.base_package_service import BasePackageService
+from libboutique.common.transaction_feedback_decorator import TransactionFeedbackDecorator
+from libboutique.common.transaction_actions import TransactionActionsEnum
 
 import gi
 
@@ -17,6 +18,13 @@ class PackageKitService(BasePackageService):
         * Uninstall a package
         * Search for a package
     """
+
+    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
+    def remove_package(self, name: str):
+        pass
+
+    def retrieve_package_information_by_name(self, name: str):
+        pass
 
     def __init__(self, progress_publisher=None):
         super().__init__(progress_publisher=progress_publisher)
@@ -52,6 +60,7 @@ class PackageKitService(BasePackageService):
             )
         )
 
+    @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str):
         """
             PackageKit expects a certain format
@@ -66,17 +75,13 @@ class PackageKitService(BasePackageService):
             Transaction Flags Docs: http://tiny.cc/dynhbz
 
         """
-        try:
-            self.packagekit_client.install_package(
-                transaction_flag=1,  # Trusted
-                package_ids=name,
-                callable=None,
-                progress_callback=self._progress_callback,
-                progress_user_data=None,
-            )
-        except PackageKitGlib.Glib.Error as ex:
-            logging.exception("Error while installing {name}: {ex}".format(name=name, ex=ex))
-            return self._format_glib_error(exception=ex)
+        self.packagekit_client.install_package(
+            transaction_flag=1,  # Trusted
+            package_ids=name,
+            callable=None,
+            progress_callback=self._progress_callback,
+            progress_user_data=None,
+        )
 
     def _create_dict_from_array(self, package_iterable: Iterable) -> List:
         """
