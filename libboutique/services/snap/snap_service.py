@@ -1,13 +1,12 @@
-import logging
-
-import gi
-
 from typing import Dict, List
 
+from libboutique.services.common.base_package_service import BasePackageService
+from libboutique.common.transaction_feedback_decorator import TransactionFeedbackDecorator
+from libboutique.common.transaction_actions import TransactionActionsEnum
+
+import gi
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
-
-from libboutique.services.common.base_package_service import BasePackageService
 
 
 class SnapService(BasePackageService):
@@ -42,32 +41,20 @@ class SnapService(BasePackageService):
         percent = round((done / total) * 100)
         self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
-    def install_package(self, name: str) -> str:
+    @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
+    def install_package(self, name: str) -> None:
         """
             Install a package providing it the name
             of the package you wish to install
         """
-        try:
-            if self.snap_client.install2_sync(
-                flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
-            ):
-                logging.info("Installed {name}".format(**locals()))
-                return self._successful_message(action="install", package=name)
-        except Exception as ex:  # TODO Investigate the Exception to put instead
-            logging.exception("Error while installed {name}: {ex}".format(name=name, ex=ex))
-            return self._format_glib_error(exception=ex)
+        self.snap_client.install2_sync(flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback)
 
-    def remove_package(self, name: str) -> str:
+    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
+    def remove_package(self, name: str) -> None:
         """
             Remove a package using its name
         """
-        try:
-            if self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback):
-                logging.info("Removed {name}".format(**locals()))
-                return self._successful_message(action="remove", package=name)
-        except Exception as ex:  # TODO Investigate the Exception to put instead
-            logging.exception("Error while removing {name}: {ex}".format(name=name, ex=ex))
-            return self._format_glib_error(exception=ex)
+        self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
 
     def list_installed_packages(self) -> List[Dict]:
         """
