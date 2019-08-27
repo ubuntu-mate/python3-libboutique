@@ -45,22 +45,24 @@ class SnapService(BasePackageService):
     @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str) -> None:
         """
-            Install a package providing it the name
-            of the package you wish to install
+            Install a package using its name.
+            Requires the package complete name
         """
-        self.snap_client.install2_sync(flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback)
+        self.snap_client.install2_sync(
+            flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
+        )
 
     @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
     def remove_package(self, name: str) -> None:
         """
-            Remove a package using its name
+            Remove the a package.
+            Requires the package complete name
         """
         self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
 
     def list_installed_packages(self) -> List[Dict]:
         """
-            List the packages that are installed on
-            this machine
+            List the packages that are installed on this machine
         """
         installed_snaps = self.snap_client.get_snaps_sync(flags=0, names=None)
         return self._create_array_dicts_from_array(snap_array=installed_snaps)
