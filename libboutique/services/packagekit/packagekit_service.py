@@ -1,7 +1,7 @@
 from typing import List, Optional, Iterable
 
 from libboutique.services.common.base_package_service import BasePackageService
-from libboutique.common.transaction_feedback_decorator import TransactionFeedbackDecorator
+from libboutique.common.transaction_feedback_decorator import transaction_feedback_decorator
 from libboutique.common.transaction_actions import TransactionActionsEnum
 
 import gi
@@ -58,7 +58,7 @@ class PackageKitService(BasePackageService):
             )
         )
 
-    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE.value)
     def remove_package(self, name: str):
         """
             Transaction Flags Docs: http://tiny.cc/dynhbz
@@ -72,7 +72,7 @@ class PackageKitService(BasePackageService):
                                                progress_callback_user_data=()
                                                )
 
-    @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str):
         """
             PackageKit expects a certain format

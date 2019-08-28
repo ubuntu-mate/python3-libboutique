@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from libboutique.services.common.base_package_service import BasePackageService
-from libboutique.common.transaction_feedback_decorator import TransactionFeedbackDecorator
+from libboutique.common.transaction_feedback_decorator import transaction_feedback_decorator
 from libboutique.common.transaction_actions import TransactionActionsEnum
 
 import gi
@@ -42,7 +42,7 @@ class SnapService(BasePackageService):
         percent = round((done / total) * 100)
         self.progress_publisher.publish(client, {"percent": percent, "total": total, "done": done})
 
-    @TransactionFeedbackDecorator(action=TransactionActionsEnum.INSTALL.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str) -> None:
         """
             Install a package using its name.
@@ -52,7 +52,7 @@ class SnapService(BasePackageService):
             flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
         )
 
-    @TransactionFeedbackDecorator(action=TransactionActionsEnum.REMOVE.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE.value)
     def remove_package(self, name: str) -> None:
         """
             Remove the a package.

@@ -10,7 +10,7 @@ def successful_message(action, arguments):
     return {"action": action, "arguments": arguments, "message": "success"}
 
 
-class TransactionFeedbackDecorator:
+class transaction_feedback_decorator:
     def __init__(self, action):
         self.action = action
 
