@@ -29,7 +29,15 @@ class TestPackageKitService:
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
         package_kit_service = PackageKitService()
         result = package_kit_service.install_package(name=package_id)
-        assert result.get("message", "")
+        assert result.get("message") == "success"
+        assert result.get("action") == "install"
+
+    def test_remove_a_package(self):
+        package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        package_kit_service = PackageKitService()
+        result = package_kit_service.remove_package(name=package_id)
+        assert result.get("message") == "success"
+        assert result.get("action") == "remove"
 
     def test_list_installed_packages(self):
         """
