@@ -24,6 +24,7 @@ class PackageKitService(BasePackageService):
         ############################################
         ********************************************
     """
+
     def __init__(self, progress_publisher=None):
         super().__init__(progress_publisher=progress_publisher)
         self.package_type = "apt"
@@ -63,14 +64,15 @@ class PackageKitService(BasePackageService):
         """
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
-        self.packagekit_client.remove_packages(transaction_flags=1,
-                                               package_ids=name,
-                                               allow_deps=False,
-                                               autoremove=False,
-                                               cancellable=None,
-                                               progress_callback=self._progress_callback,
-                                               progress_callback_user_data=()
-                                               )
+        self.packagekit_client.remove_packages(
+            transaction_flags=1,
+            package_ids=name,
+            allow_deps=False,
+            autoremove=False,
+            cancellable=None,
+            progress_callback=self._progress_callback,
+            progress_callback_user_data=(),
+        )
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str):
@@ -79,10 +81,10 @@ class PackageKitService(BasePackageService):
             of string.
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
-        self.packagekit_client.install_package(
-            transaction_flag=1,  # Trusted
+        self.packagekit_client.install_packages(
+            transaction_flags=1,  # Trusted
             package_ids=name,
-            callable=None,
+            cancellable=None,
             progress_callback=self._progress_callback,
             progress_user_data=None,
         )
@@ -100,6 +102,7 @@ class PackageKitService(BasePackageService):
                     progress_callback=self._progress_callback,
                     progress_user_data=(),
                 ).get_package_array()
+                if name in p.get_name()
             )
         )
 

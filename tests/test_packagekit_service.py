@@ -10,12 +10,26 @@ from libboutique.services.packagekit.packagekit_service import PackageKitService
 
 class TestPackageKitService:
 
+    APPLICATION_TO_INSTALL_REMOVE = "glances"
+
+    @staticmethod
+    def _retrieve_package_id_from_name(name):
+        return PackageKitService().retrieve_package_information_by_name(name=name)[0].get("package_id")
+
     def test_search_packages(self):
-        package = "flat"
+        package_name = "flat"
         package_kit_service = PackageKitService()
-        result = package_kit_service.retrieve_package_information_by_name(name=package)
+        result = package_kit_service.retrieve_package_information_by_name(name=package_name)
+        assert len(result)
         for package in result:
             self.assert_package_structure(package=package)
+            assert package_name in package.get("name")
+
+    def test_install_a_package(self):
+        package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        package_kit_service = PackageKitService()
+        result = package_kit_service.install_package(name=package_id)
+        assert result.get("message", "")
 
     def test_list_installed_packages(self):
         """
