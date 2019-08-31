@@ -69,12 +69,12 @@ class PackageKitService(BasePackageService):
         """
         self.packagekit_client.remove_packages(
             transaction_flags=1,
-            package_ids=name,
+            package_ids=[name],
             allow_deps=False,
             autoremove=False,
             cancellable=None,
             progress_callback=self._progress_callback,
-            progress_callback_user_data=(),
+            progress_user_data=(),
         )
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
@@ -86,7 +86,7 @@ class PackageKitService(BasePackageService):
         """
         self.packagekit_client.install_packages(
             transaction_flags=1,  # Trusted
-            package_ids=name,
+            package_ids=[name],
             cancellable=None,
             progress_callback=self._progress_callback,
             progress_user_data=None,
