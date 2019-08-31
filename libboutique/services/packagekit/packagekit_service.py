@@ -62,6 +62,9 @@ class PackageKitService(BasePackageService):
     @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE.value)
     def remove_package(self, name: str):
         """
+            The name has to be formatted as a package_id
+            ** see class pydoc **
+
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
         self.packagekit_client.remove_packages(
@@ -77,8 +80,8 @@ class PackageKitService(BasePackageService):
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
     def install_package(self, name: str):
         """
-            PackageKit expects a certain format
-            of string.
+            The name has to be formatted as a package_id
+            ** see class pydoc **
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
         self.packagekit_client.install_packages(
