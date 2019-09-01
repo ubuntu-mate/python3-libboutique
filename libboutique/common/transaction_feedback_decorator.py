@@ -1,6 +1,8 @@
 import logging
 from functools import wraps
 
+from libboutique.common.transaction_actions import TransactionActionsEnum
+
 
 def format_glib_error(exception):
     return {"args": exception.args, "code": exception.code, "domain": exception.domain, "message": exception.message}
@@ -11,8 +13,8 @@ def successful_message(action, arguments):
 
 
 class transaction_feedback_decorator:
-    def __init__(self, action):
-        self.action = action
+    def __init__(self, action: TransactionActionsEnum):
+        self.action = action.value
 
     def __call__(self, fn):
         @wraps(fn)
