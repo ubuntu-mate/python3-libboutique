@@ -59,7 +59,7 @@ class PackageKitService(BasePackageService):
             )
         )
 
-    @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE)
     def remove_package(self, name: str):
         """
             The name has to be formatted as a package_id
@@ -77,7 +77,7 @@ class PackageKitService(BasePackageService):
             progress_user_data=(),
         )
 
-    @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL.value)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
         """
             The name has to be formatted as a package_id
