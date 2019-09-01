@@ -41,6 +41,13 @@ class PackageKitService(BasePackageService):
         if self.progress_publisher is None:
             return
 
+    @transaction_feedback_decorator(action=TransactionActionsEnum.REFRESH_CACHE)
+    def refresh_cache(self, force_refresh=False) -> None:
+        """
+            refresh the cache of the package manager
+        """
+        self.packagekit_client.refresh_cache(force=force_refresh, progress_callback=self._progress_callback, progress_user_data=())
+
     def list_installed_packages(self) -> List:
         """
             Takes care of retrieving and
