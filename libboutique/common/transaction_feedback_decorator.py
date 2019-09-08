@@ -21,10 +21,13 @@ class transaction_feedback_decorator:
         def wrapper(*args, **kwargs):
             try:
                 fn(*args, **kwargs)
-                logging.info("Success: {self.action} - {args} & {kwargs}".format(**locals()))
+                logging.info(f"Success: {self.action} - {args} & {kwargs}")
                 return successful_message(action=self.action, arguments=(args, kwargs))
             except Exception as ex:
-                logging.exception("Error: {self.action} - {args} & {kwargs}: {ex}".format(**locals()))
+                logging.exception(f"Error: {self.action} - {args} & {kwargs}: {ex}")
                 return format_glib_error(exception=ex)
 
         return wrapper
+
+
+
