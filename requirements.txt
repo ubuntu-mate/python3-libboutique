@@ -4,3 +4,4 @@ pytest
 pycairo==1.18.1
 PyGObject==3.32.2
 distro==1.4.0
+sqlalchemy
