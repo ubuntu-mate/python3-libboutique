@@ -8,3 +8,4 @@
 .coverage
 *.egg-info/
 htmlcov/
+**/*.sqlite
