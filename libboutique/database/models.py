@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
@@ -13,8 +14,8 @@ Base = declarative_base()
 class InstallationDates(Base):
     __tablename__ = "InstallationDates"
     package_name = Column('packageName', String(32), primary_key=True)
-    package_type = Column("packageType", String(10))  # curated, snap, apt ( PackageKit )
-    installation_datetime = Column("installationDatetime", DateTime(timezone=True))
+    package_type = Column("packageType", String(10),  nullable=False)  # curated, snap, apt ( PackageKit )
+    installation_datetime = Column("installationDatetime", DateTime(timezone=True), default=datetime.now())
 
 
 engine = sqlalchemy.create_engine(f"sqlite:///{db_path}")
