@@ -51,6 +51,7 @@ class SnapService(BasePackageService):
         self.snap_client.install2_sync(
             flags=0, name=name, channel=self._channel, progress_callback=self.progress_callback
         )
+        self._save_installation_date(package_name=name)
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.REMOVE)
     def remove_package(self, name: str) -> None:
@@ -59,6 +60,7 @@ class SnapService(BasePackageService):
             Requires the package complete name
         """
         self.snap_client.remove_sync(name=name, progress_callback=self.progress_callback)
+        self._remove_install_date(package_name=name)
 
     def list_installed_packages(self) -> List[Dict]:
         """

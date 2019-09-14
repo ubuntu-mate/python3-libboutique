@@ -83,6 +83,7 @@ class PackageKitService(BasePackageService):
             progress_callback=self._progress_callback,
             progress_user_data=(),
         )
+        self._remove_install_date(package_name=name.replace("installed:", "").strip())
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
@@ -98,6 +99,7 @@ class PackageKitService(BasePackageService):
             progress_callback=self._progress_callback,
             progress_user_data=None,
         )
+        self._save_installation_date(package_name=name)
 
     def retrieve_package_information_by_name(self, name: str) -> List:
         """
