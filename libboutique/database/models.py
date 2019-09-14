@@ -4,6 +4,7 @@ from datetime import datetime
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(base_dir, "boutique.sqlite")
@@ -20,4 +21,6 @@ class InstallationDates(Base):
 
 engine = sqlalchemy.create_engine(f"sqlite:///{db_path}")
 Base.metadata.create_all(engine)
+
+SESSION_CLASS = sessionmaker(bind=engine)
 
