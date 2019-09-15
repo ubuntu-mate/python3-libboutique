@@ -1,4 +1,5 @@
 import os
+from contextlib import contextmanager
 from datetime import datetime
 
 import sqlalchemy
@@ -24,3 +25,11 @@ Base.metadata.create_all(engine)
 
 SESSION_CLASS = sessionmaker(bind=engine)
 
+
+@contextmanager
+def db_session():
+    session = SESSION_CLASS()
+    try:
+        yield session
+    finally:
+        session.commit()
