@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from libboutique.database.models import SESSION_CLASS, InstallationDates
+from libboutique.database.models import db_session, InstallationDates
 
 import distro
 
@@ -37,14 +37,12 @@ class BasePackageService:
         }
 
     def _save_installation_date(self, package_name):
-        session = SESSION_CLASS()
-        new_installation_date = InstallationDates(package_type=self.package_type, package_name=package_name)
-        session.add(new_installation_date)
-        session.commit()
+        with db_session() as session:
+            new_installation_date = InstallationDates(package_type=self.package_type, package_name=package_name)
+            session.add(new_installation_date)
 
     @staticmethod
     def _remove_install_date(package_name):
-        session = SESSION_CLASS()
-        installation_date = session.query(InstallationDates).filter(InstallationDates.package_name == package_name)[0]
-        session.delete(installation_date)
-        session.commit()
+        with db_session() as session:
+            installation_date = session.query(InstallationDates).filter(InstallationDates.package_name == package_name)[0]
+            session.delete(installation_date)
