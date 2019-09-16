@@ -26,6 +26,11 @@ class BasePackageService:
     def list_installed_packages(self) -> List:
         raise NotImplementedError("You must implement it in your class")
 
+    @staticmethod
+    def get_package_installation_date_by_package_name(package_name):
+        with db_session() as session:
+            return session.query(InstallationDates).filter(InstallationDates.package_name == package_name).first()
+
     def _extract_package_to_dict(self, package) -> Dict:
         return {
             "package_id": package.get_id(),
