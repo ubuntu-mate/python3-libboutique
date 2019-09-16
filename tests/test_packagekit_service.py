@@ -31,6 +31,9 @@ class TestPackageKitService:
         result = package_kit_service.install_package(name=package_id)
         assert result.get("message") == "success"
         assert result.get("action") == "install"
+        installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
+        assert installation_date.package_name == package_id
+        assert installation_date.package_type == "apt"
 
     def test_remove_a_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
