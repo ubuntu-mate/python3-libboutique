@@ -1,16 +1,15 @@
 import gi
 
-from datetime import datetime
 from typing import Dict
 
 gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
 
 from libboutique.services.packagekit.packagekit_service import PackageKitService
-from libboutique.database.models import InstallationDates
+from tests.common_service_tests import CommonServiceTests
 
 
-class TestPackageKitService:
+class TestPackageKitCommonService(CommonServiceTests):
 
     APPLICATION_TO_INSTALL_REMOVE = "glances"
     PACKAGE_TYPE = "apt"
@@ -35,7 +34,7 @@ class TestPackageKitService:
         assert result.get("message") == "success"
         assert result.get("action") == "install"
         installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
-        self.assert_installation_date(installation_date=installation_date, expected_package_id=package_id)
+        self.assert_installation_date(installation_date=installation_date, expected_package_name=package_id)
 
     def test_remove_a_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
@@ -71,17 +70,3 @@ class TestPackageKitService:
         assert package.get("arch") is not None
         assert package.get("data") is not None
         assert package.get("is_installed") is not None
-
-    @classmethod
-    def assert_installation_date(cls, installation_date: InstallationDates, expected_package_id: str) -> None:
-        """
-            Assert installation dates
-        """
-        assert installation_date.package_type == cls.PACKAGE_TYPE
-        assert installation_date.package_name == expected_package_id
-        assert installation_date.installation_datetime.year == datetime.now().year
-        assert installation_date.installation_datetime.month == datetime.now().month
-        assert installation_date.installation_datetime.day == datetime.now().day
-        assert installation_date.installation_datetime.hour == datetime.now().hour
-        assert installation_date.installation_datetime.minute == datetime.now().minute
-
