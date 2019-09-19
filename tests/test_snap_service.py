@@ -4,13 +4,21 @@ from unittest.mock import Mock, patch
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
+from libboutique.database.models import InstallationDates
 from libboutique.services.snap.snap_service import SnapService
 
 
 class TestSnapService:
     """TestSnapService"""
 
-    def validate_package_information_dict(self, package):
+    PACKAGE_TYPE = "snap"
+
+    @classmethod
+    def assert_validation_dates(cls, installation_date: InstallationDates, package_name: str):
+        pass
+
+    @staticmethod
+    def assert_package_information_dict(package):
         assert isinstance(package, dict)
         assert package.get("package_id") is not None
         assert package.get("name") is not None
@@ -22,7 +30,7 @@ class TestSnapService:
         assert package.get("price") is not None
         assert package.get("summary") is not None
 
-    def test_install_package(self):
+    def test_install_package_mocked_snap(self):
         """testInstallPackage"""
         with patch.object(Snapd.Client, "new", return_value=Mock()) as snap_client_mock:
             publisher_mock = Mock()
@@ -34,7 +42,7 @@ class TestSnapService:
                 flags=0, name="bw", channel="stable", progress_callback=snap_service.progress_callback
             )
 
-    def test_remove_package(self):
+    def test_remove_package_mocked_snap(self):
         """testRemovePackage"""
         with patch.object(Snapd.Client, "new", return_value=Mock()) as snap_client_mock:
             publisher_mock = Mock()
@@ -78,11 +86,11 @@ class TestSnapService:
         list_installed_packages = snap_service.list_installed_packages()
         assert isinstance(list_installed_packages, list)
         for package in list_installed_packages:
-            self.validate_package_information_dict(package=package)
+            self.assert_package_information_dict(package=package)
             assert package.get("is_installed", False)
 
     def test_retrieve_package_information(self):
         snap_service = SnapService(progress_publisher=None)
         package_info = snap_service.retrieve_package_information_by_name(name="bw")
         for package in package_info:
-            self.validate_package_information_dict(package=package)
+            self.assert_package_information_dict(package=package)
