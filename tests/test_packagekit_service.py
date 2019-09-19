@@ -35,7 +35,7 @@ class TestPackageKitService:
         assert result.get("message") == "success"
         assert result.get("action") == "install"
         installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
-        self.assert_installation_date_package(installation_date=installation_date, expected_package_id=package_id)
+        self.assert_installation_date(installation_date=installation_date, expected_package_id=package_id)
 
     def test_remove_a_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
@@ -73,7 +73,10 @@ class TestPackageKitService:
         assert package.get("is_installed") is not None
 
     @classmethod
-    def assert_installation_date_package(cls, installation_date: InstallationDates, expected_package_id: str):
+    def assert_installation_date(cls, installation_date: InstallationDates, expected_package_id: str) -> None:
+        """
+            Assert installation dates
+        """
         assert installation_date.package_type == cls.PACKAGE_TYPE
         assert installation_date.package_name == expected_package_id
         assert installation_date.installation_datetime.year == datetime.now().year
