@@ -4,18 +4,14 @@ from unittest.mock import Mock, patch
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
-from libboutique.database.models import InstallationDates
 from libboutique.services.snap.snap_service import SnapService
+from tests.common_service_tests import CommonServiceTests
 
 
-class TestSnapService:
+class TestSnapCommonService(CommonServiceTests):
     """TestSnapService"""
-
+    APPLICATION_TO_INSTALL_REMOVE = "bw"
     PACKAGE_TYPE = "snap"
-
-    @classmethod
-    def assert_validation_dates(cls, installation_date: InstallationDates, package_name: str):
-        pass
 
     @staticmethod
     def assert_package_information_dict(package):
