@@ -1,16 +1,19 @@
 import gi
 
+from datetime import datetime
 from typing import Dict
 
 gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
 
 from libboutique.services.packagekit.packagekit_service import PackageKitService
+from libboutique.database.models import InstallationDates
 
 
 class TestPackageKitService:
 
     APPLICATION_TO_INSTALL_REMOVE = "glances"
+    PACKAGE_TYPE = "apt"
 
     @staticmethod
     def _retrieve_package_id_from_name(name):
@@ -32,8 +35,7 @@ class TestPackageKitService:
         assert result.get("message") == "success"
         assert result.get("action") == "install"
         installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
-        assert installation_date.package_name == package_id
-        assert installation_date.package_type == "apt"
+        self.assert_installation_date_package(installation_date=installation_date, expected_package_id=package_id)
 
     def test_remove_a_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
@@ -41,6 +43,8 @@ class TestPackageKitService:
         result = package_kit_service.remove_package(name=package_id)
         assert result.get("message") == "success"
         assert result.get("action") == "remove"
+        installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
+        assert installation_date is None
 
     def test_list_installed_packages(self):
         """
@@ -67,3 +71,14 @@ class TestPackageKitService:
         assert package.get("arch") is not None
         assert package.get("data") is not None
         assert package.get("is_installed") is not None
+
+    @classmethod
+    def assert_installation_date_package(cls, installation_date: InstallationDates, expected_package_id: str):
+        assert installation_date.package_type == cls.PACKAGE_TYPE
+        assert installation_date.package_name == expected_package_id
+        assert installation_date.installation_datetime.year == datetime.now().year
+        assert installation_date.installation_datetime.month == datetime.now().month
+        assert installation_date.installation_datetime.day == datetime.now().day
+        assert installation_date.installation_datetime.hour == datetime.now().hour
+        assert installation_date.installation_datetime.minute == datetime.now().minute
+
