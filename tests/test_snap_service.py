@@ -32,10 +32,10 @@ class TestSnapCommonService(CommonServiceTests):
             publisher_mock = Mock()
             snap_service = SnapService(progress_publisher=publisher_mock)
             snap_client_mock.assert_called_once()
-            snap_service.install_package(name="bw")
+            snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
             snap_client = snap_service.snap_client
             snap_client.install2_sync.assert_called_once_with(
-                flags=0, name="bw", channel="stable", progress_callback=snap_service.progress_callback
+                flags=0, name=self.APPLICATION_TO_INSTALL_REMOVE, channel="stable", progress_callback=snap_service.progress_callback
             )
 
     def test_remove_package_mocked_snap(self):
@@ -44,15 +44,19 @@ class TestSnapCommonService(CommonServiceTests):
             publisher_mock = Mock()
             snap_service = SnapService(progress_publisher=publisher_mock)
             snap_client_mock.assert_called_once()
-            snap_service.remove_package(name="bw")
+            snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
             snap_client = snap_service.snap_client
             snap_client.remove_sync.assert_called_once_with(name="bw", progress_callback=snap_service.progress_callback)
 
     def test_install_package_twice(self):
         """testInstallPackageTwice"""
         snap_service = SnapService(progress_publisher=None)
-        snap_service.install_package(name="bw")
-        result = snap_service.install_package(name="bw")
+        snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+
+        installationd_date = snap_service.get_package_installation_date_by_package_name(package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(installation_date=installationd_date, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+
+        result = snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("code") == 14
         assert result.get("message") == 'snap "bw" is already installed'
         assert result.get("args") == ('snap "bw" is already installed',)
