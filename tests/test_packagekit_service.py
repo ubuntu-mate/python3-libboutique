@@ -33,8 +33,7 @@ class TestPackageKitCommonService(CommonServiceTests):
         result = package_kit_service.install_package(name=package_id)
         assert result.get("message") == "success"
         assert result.get("action") == "install"
-        installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
-        self.assert_installation_date(installation_date=installation_date, expected_package_name=package_id)
+        self.assert_installation_date(package_service=package_kit_service, expected_package_name=package_id)
 
     def test_remove_a_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
@@ -42,8 +41,7 @@ class TestPackageKitCommonService(CommonServiceTests):
         result = package_kit_service.remove_package(name=package_id)
         assert result.get("message") == "success"
         assert result.get("action") == "remove"
-        installation_date = package_kit_service.get_package_installation_date_by_package_name(package_name=package_id)
-        assert installation_date is None
+        self.assert_no_installation_date(package_service=package_kit_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
 
     def test_list_installed_packages(self):
         """
