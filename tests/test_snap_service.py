@@ -52,21 +52,21 @@ class TestSnapCommonService(CommonServiceTests):
         """testInstallPackageTwice"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-
-        installationd_date = snap_service.get_package_installation_date_by_package_name(package_name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_installation_date(installation_date=installationd_date, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
-
+        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
         result = snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("code") == 14
-        assert result.get("message") == 'snap "bw" is already installed'
-        assert result.get("args") == ('snap "bw" is already installed',)
+        assert result.get("message") == f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is already installed'
+        assert result.get("args") == (f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is already installed',)
         assert result.get("domain") == "snapd-error-quark"
 
     def test_install_new_package(self):
         """testInstallNewPackage"""
         snap_service = SnapService(progress_publisher=None)
-        snap_service.remove_package(name="bw")
-        result = snap_service.install_package(name="bw")
+        snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        result = snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("action") == "install"
         assert result.get("message") == "success"
         assert isinstance(result.get("arguments"), tuple)
@@ -74,11 +74,13 @@ class TestSnapCommonService(CommonServiceTests):
     def test_remove_package_twice(self):
         """testRemoveTwicePackage"""
         snap_service = SnapService(progress_publisher=None)
-        snap_service.remove_package(name="bw")
-        result = snap_service.remove_package(name="bw")
+        snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        result = snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("code") == 15
-        assert result.get("message") == 'snap "bw" is not installed'
-        assert result.get("args") == ('snap "bw" is not installed',)
+        assert result.get("message") == f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is not installed'
+        assert result.get("args") == (f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is not installed',)
         assert result.get("domain") == "snapd-error-quark"
 
     def test_retrieve_installed_package(self):
@@ -91,6 +93,6 @@ class TestSnapCommonService(CommonServiceTests):
 
     def test_retrieve_package_information(self):
         snap_service = SnapService(progress_publisher=None)
-        package_info = snap_service.retrieve_package_information_by_name(name="bw")
+        package_info = snap_service.retrieve_package_information_by_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
         for package in package_info:
             self.assert_package_information_dict(package=package)
