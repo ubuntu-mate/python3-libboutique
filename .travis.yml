@@ -24,4 +24,4 @@ matrix:
   include:
     - os: linux
       dist: bionic
-script: make unittest
+script: sudo make unittest
