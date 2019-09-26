@@ -20,6 +20,8 @@ addons:
       - snapd
       - dbus
       - dbus-x11
+      - python3-coverage
+      - python3-pytest
 matrix:
   include:
     - os: linux
