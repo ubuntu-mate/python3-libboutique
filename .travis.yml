@@ -7,7 +7,7 @@ python:
   - "3.7"
 before_install:
   - sudo apt update
-  - sudo apt install -y python3-gi python3-sqlalchemy gir1.2-snapd-1 zenity gir1.2-packagekitglib-1.0 python3-distro
+  - sudo apt install -y python3-gi python3-sqlalchemy gir1.2-snapd-1 zenity gir1.2-packagekitglib-1.0 python3-distro libgirepository1.0-dev
 matrix:
   include:
     - os: linux
