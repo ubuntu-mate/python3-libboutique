@@ -8,4 +8,8 @@ before_install:
 addons:
   apt:
     update: true
+matrix:
+  include:
+    - os: linux
+      dist: bionic
 script: make unittest
