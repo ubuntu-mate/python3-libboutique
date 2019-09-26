@@ -16,6 +16,8 @@ addons:
       - gir1.2-packagekitglib-1.0
       - python3-distro
       - libgirepository1.0-dev
+      - packagekit
+      - snapd
       - dbus
       - dbus-x11
 matrix:
