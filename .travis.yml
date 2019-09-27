@@ -1,4 +1,4 @@
-sudo: required
+sudo: true
 os: linux
 dist: bionic
 language: python
@@ -22,8 +22,6 @@ addons:
       - dbus-x11
       - python3-coverage
       - python3-pytest
-before_install:
-  - sudo su
 matrix:
   include:
     - os: linux
