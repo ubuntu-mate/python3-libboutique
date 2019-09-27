@@ -1,6 +1,6 @@
-import gi
 from unittest.mock import Mock, patch
 
+import gi
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
@@ -22,7 +22,7 @@ class TestSnapCommonService(CommonServiceTests):
         assert package.get("version") is not None
         assert package.get("license", 1) != 1  # Shouldn't be empty
         assert package.get("is_installed") is not None
-        assert package.get("distribution") == "ubuntu 19.04"
+        assert "ubuntu" in package.get("distribution")
         assert package.get("price") is not None
         assert package.get("summary") is not None
 
