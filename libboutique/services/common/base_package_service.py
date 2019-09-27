@@ -46,7 +46,7 @@ class BasePackageService:
             "name": package.get_name(),
             "distribution": self.distribution,
             "version": package.get_version(),
-            "source": self.package_type,
+            "source": self.PACKAGE_TYPE,
             "summary": package.get_summary(),
         }
 
