@@ -30,4 +30,4 @@ matrix:
       dist: bionic
 install:
   - make setup_dev
-script: make unittest
+script: sudo python3 -m pytest -v
