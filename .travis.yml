@@ -23,6 +23,7 @@ addons:
       - python3-coverage
       - python3-pytest
 matrix:
+  fast_finish: true
   include:
     - os: linux
       dist: bionic
