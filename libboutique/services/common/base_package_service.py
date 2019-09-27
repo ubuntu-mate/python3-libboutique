@@ -27,9 +27,18 @@ class BasePackageService:
         raise NotImplementedError("You must implement it in your class")
 
     @staticmethod
-    def get_package_installation_date_by_package_name(package_name):
+    def get_all_package_installation_dates() -> [InstallationDates]:
+        """
+            Retrieve all the installation dates
+        """
         with db_session() as session:
-            return session.query(InstallationDates).filter(InstallationDates.package_name == package_name).first()
+            return session.query(InstallationDates)
+
+    @classmethod
+    def get_package_installation_date_by_package_name(cls, package_name):
+        with db_session() as session:
+            return session.query(InstallationDates).filter(InstallationDates.package_name == package_name
+                                                           and InstallationDates.package_type == cls.PACKAGE_TYPE).first()
 
     def _extract_package_to_dict(self, package) -> Dict:
         return {
@@ -43,7 +52,7 @@ class BasePackageService:
 
     def _save_installation_date(self, package_name):
         with db_session() as session:
-            new_installation_date = InstallationDates(package_type=self.package_type, package_name=package_name)
+            new_installation_date = InstallationDates(package_type=self.PACKAGE_TYPE, package_name=package_name)
             session.add(new_installation_date)
 
     @staticmethod
