@@ -96,3 +96,6 @@ class TestSnapCommonService(CommonServiceTests):
         package_info = snap_service.retrieve_package_information_by_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
         for package in package_info:
             self.assert_package_information_dict(package=package)
+
+    def test_get_multiple_installation_dates(self):
+        pass

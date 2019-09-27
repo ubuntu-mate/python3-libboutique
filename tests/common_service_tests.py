@@ -6,6 +6,12 @@ from libboutique.services.common.base_package_service import BasePackageService
 class CommonServiceTests:
     PACKAGE_TYPE = "Unknown"
 
+    def test_get_multiple_installation_dates(self):
+        """
+            Make that the installation dates are all in the database
+        """
+        raise NotImplemented
+
     @classmethod
     def assert_installation_date(cls, package_service: BasePackageService, expected_package_name: str) -> None:
         """

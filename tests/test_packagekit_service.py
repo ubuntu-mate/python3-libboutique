@@ -12,6 +12,8 @@ from tests.common_service_tests import CommonServiceTests
 class TestPackageKitCommonService(CommonServiceTests):
 
     APPLICATION_TO_INSTALL_REMOVE = "glances"
+    SECOND_APPLICATION_INSTALL_REMOVE = "flashbake"
+
     PACKAGE_TYPE = "apt"
 
     @staticmethod
@@ -53,6 +55,12 @@ class TestPackageKitCommonService(CommonServiceTests):
         for package in install_packages:
             self.assert_package_structure(package=package)
             assert package["is_installed"]
+
+    def test_get_multiple_installation_dates(self):
+        """
+            Make that the installation dates are all in the database
+        """
+        pass
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
