@@ -1,5 +1,7 @@
 # Python3-boutique
 
+[![Build Status](https://travis-ci.org/ubuntu-mate/python3-libboutique.svg?branch=master)](https://travis-ci.org/ubuntu-mate/python3-libboutique)
+
 Backend library of software-boutique 2.0.
 
 ## Features:
