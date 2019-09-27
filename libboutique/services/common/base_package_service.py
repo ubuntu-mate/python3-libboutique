@@ -8,9 +8,9 @@ class BasePackageService:
     """
         Base class for each Package Services i.e PackageKit and Snap
     """
+    PACKAGE_TYPE = "Unknown"
 
     def __init__(self, progress_publisher=None):
-        self.package_type = "Unknown"
         self.distribution = " ".join(distro.linux_distribution(full_distribution_name=False)[0:2])
         self.progress_publisher = progress_publisher
 

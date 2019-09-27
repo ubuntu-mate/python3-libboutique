@@ -24,10 +24,10 @@ class PackageKitService(BasePackageService):
         ############################################
         ********************************************
     """
+    PACKAGE_TYPE = "apt"
 
     def __init__(self, progress_publisher=None):
         super().__init__(progress_publisher=progress_publisher)
-        self.package_type = "apt"
         self.packagekit_client = PackageKitGlib.Client().new()
 
     def _progress_callback(

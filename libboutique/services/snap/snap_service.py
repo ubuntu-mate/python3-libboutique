@@ -21,12 +21,12 @@ class SnapService(BasePackageService):
         * help search for a snap using:
             * package name
     """
+    PACKAGE_TYPE = "snap"
 
     def __init__(self, progress_publisher=None):
         super().__init__(progress_publisher=progress_publisher)
         self.snap_client = Snapd.Client().new()
         self._channel = "stable"
-        self.package_type = "snap"
 
     def progress_callback(self, client: object, change: object, deprecated, user_data) -> None:
         """
