@@ -22,9 +22,12 @@ addons:
       - dbus-x11
       - python3-coverage
       - python3-pytest
+      - python3-venv
 matrix:
   fast_finish: true
   include:
     - os: linux
       dist: bionic
+install:
+  - make setup_dev
 script: make unittest
