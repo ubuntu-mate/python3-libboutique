@@ -118,6 +118,13 @@ class PackageKitService(BasePackageService):
             )
         )
 
+    @transaction_feedback_decorator(TransactionActionsEnum.REFRESH_CACHE)
+    def update_cache(self, force=True):
+        self.packagekit_client.refresh_cache(force-force,
+                                             cancellable=None,
+                                             progress_callback=self._progress_callback,
+                                             progress_user_data=())
+
     def _create_dict_array_from_package_array(self, package_iterable: Iterable) -> List:
         """
             extract data from each Package provided
