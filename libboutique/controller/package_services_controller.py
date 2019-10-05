@@ -1,3 +1,5 @@
+from functools import partial
+from threading import Thread
 from typing import Callable
 from queue import Queue
 
@@ -12,6 +14,12 @@ class PackageServicesController(metaclass=Singleton):
         Takes care of the threads and process required
         to make the backend and frontend work seamlessly
     """
+
+    _APT_QUEUE = Queue()
+    _CURATED_QUEUE = Queue()
+    _SNAP_QUEUE = Queue()
+
+    _SERVICE_DICT_KEY = "service"
 
     def __init__(self, origin, callback_subscribe):
         self.origin = origin
