@@ -67,16 +67,6 @@ class PackageServicesController(metaclass=Singleton):
         self.snap_service.remove_package(name=name)
         # TODO APT
 
-    def _run_list_installed_packages(self, callback: Callable):
-        """
-            TODO Make each service run simultaneously
-        """
-        list_of_packages = {}
-        # list_of_packages.update({self._CURATED_DICT_KEY: None})  # TODO Change None for implementation for curated
-        list_of_packages.update({self._SNAP_DICT_KEY: self._package_type_services[self._SNAP_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
-        list_of_packages.update({self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
-        callback(list_of_packages)
-
     def list_installed_packages(self, callback: Callable) -> None:
         """
             Run a thread that will list every installed packages
@@ -97,6 +87,17 @@ class PackageServicesController(metaclass=Singleton):
             self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
             *args)
         return partial(callback, service_install_method)
+
+    def _run_list_installed_packages(self, callback: Callable):
+        """
+            TODO Make each service run simultaneously
+        """
+        list_of_packages = {}
+        # list_of_packages.update({self._CURATED_DICT_KEY: None})  # TODO Change None for implementation for curated
+        list_of_packages.update({self._SNAP_DICT_KEY: self._package_type_services[self._SNAP_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
+        list_of_packages.update({self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
+        callback(list_of_packages)
+
 
     @staticmethod
     def _run_service_queue(service_queue: Queue):
