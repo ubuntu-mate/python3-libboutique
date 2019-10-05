@@ -4,6 +4,7 @@ from libboutique.database.models import db_session, InstallationDates
 
 import distro
 
+
 class BasePackageService:
     """
         Base class for each Package Services i.e PackageKit and Snap
