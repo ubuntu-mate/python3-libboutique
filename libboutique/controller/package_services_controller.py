@@ -28,26 +28,38 @@ class PackageServicesController(metaclass=Singleton):
         self.progress_publisher.subscribe(self.origin, self.callback_subscribe)
         self._package_type_services = {
             "snap": {
-                "service": SnapService(progress_publisher=self.progress_publisher),
-                "action_queue": Queue()
+                self._SERVICE_DICT_KEY: SnapService(progress_publisher=self.progress_publisher),
+                "action_queue": self._SNAP_QUEUE,
+                "worker": Thread(target=self.run_service_queue, args=(self._SNAP_QUEUE,))
             },
             "apt": {
-                "service": PackageKitService(progress_publisher=self.progress_publisher),
-                "action_queue": Queue()
+                self._SERVICE_DICT_KEY: PackageKitService(progress_publisher=self.progress_publisher),
+                "action_queue": self._APT_QUEUE,
+                "worker": Thread(target=self.run_service_queue, args=(self._APT_QUEUE, ))
             },
             "curated": {
-                "service": None,  # TODO  replace None for the service intended for curated packages
-                "action_queue": Queue()
+                self._SERVICE_DICT_KEY: None,  # TODO  replace None for the service intended for curated packages
+                "action_queue": self._CURATED_QUEUE,
+                "worker": Thread(target=self._run_service_queue(), args=(self._CURATED_QUEUE, ))
             }
         }
 
-    async def install_package(self, name, package_type: str, callback: Callable) -> None:
+    @staticmethod
+    def _run_service_queue(service_queue: Queue):
+        while not service_queue.empty():
+            service_queue.get()()
+
+    def install_package(self, name, package_type: str, callback: Callable) -> None:
         """
             From the information in the front-end, initiate an installation
             of thee back
         """
         try:
-            callback(self._package_type_services[package_type].install_package(name=name))
+            service_queue = self._package_type_services[package_type][self._SERVICE_DICT_KEY]
+            service_install_method = partial(self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
+                                             name)
+            callback_partial = partial(callback, service_install_method)
+            service_queue.put_nowait(callback_partial)
         except KeyError:
             callback("Error")  # TODO Error handling is to be defined
 
