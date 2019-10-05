@@ -11,7 +11,7 @@ def show_progress(package, progress):
 
 
 if __name__ == "__main__":
-    command_handler = PackageServicesController(origin="cli", callback_subscribe=show_progress)
+    command_handler = PackageServicesController(callback_subscribe=show_progress)
 
     commands = {
         "install_app=": command_handler.install_package,

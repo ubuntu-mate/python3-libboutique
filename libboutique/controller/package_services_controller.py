@@ -19,25 +19,27 @@ class PackageServicesController(metaclass=Singleton):
     _CURATED_QUEUE = Queue()
     _SNAP_QUEUE = Queue()
 
+    _APT_DICT_KEY = "apt"
+    _CURATED_DICT_KEY = "curated"
     _SERVICE_DICT_KEY = "service"
+    _SNAP_DICT_KEY = "snap"
 
-    def __init__(self, origin, callback_subscribe):
-        self.origin = origin
+    def __init__(self, callback_subscribe):
         self.callback_subscribe = callback_subscribe
         self.progress_publisher = ProgressPublisher()
         self.progress_publisher.subscribe(self.origin, self.callback_subscribe)
         self._package_type_services = {
-            "snap": {
+            self._SNAP_DICT_KEY: {
                 self._SERVICE_DICT_KEY: SnapService(progress_publisher=self.progress_publisher),
                 "action_queue": self._SNAP_QUEUE,
                 "worker": Thread(target=self.run_service_queue, args=(self._SNAP_QUEUE,))
             },
-            "apt": {
+            self._APT_DICT_KEY: {
                 self._SERVICE_DICT_KEY: PackageKitService(progress_publisher=self.progress_publisher),
                 "action_queue": self._APT_QUEUE,
                 "worker": Thread(target=self.run_service_queue, args=(self._APT_QUEUE, ))
             },
-            "curated": {
+            self._CURATED_DICT_KEY: {
                 self._SERVICE_DICT_KEY: None,  # TODO  replace None for the service intended for curated packages
                 "action_queue": self._CURATED_QUEUE,
                 "worker": Thread(target=self._run_service_queue(), args=(self._CURATED_QUEUE, ))
