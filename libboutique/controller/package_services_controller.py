@@ -1,6 +1,6 @@
 from functools import partial
 from threading import Thread
-from typing import Callable
+from typing import Callable, Tuple
 from queue import Queue
 
 from libboutique.metaclasses.singleton import Singleton
@@ -25,6 +25,7 @@ class PackageServicesController(metaclass=Singleton):
     _SNAP_DICT_KEY = "snap"
 
     def __init__(self, callback_subscribe):
+        self._list_package_thread = Thread()
         self.callback_subscribe = callback_subscribe
         self.progress_publisher = ProgressPublisher()
         self.progress_publisher.subscribe(self.origin, self.callback_subscribe)
