@@ -33,24 +33,19 @@ class PackageServicesController(metaclass=Singleton):
             self._SNAP_DICT_KEY: {
                 self._SERVICE_DICT_KEY: SnapService(progress_publisher=self.progress_publisher),
                 "action_queue": self._SNAP_QUEUE,
-                "worker": Thread(target=self.run_service_queue, args=(self._SNAP_QUEUE,))
+                "worker": Thread(target=self._run_service_queue, args=(self._SNAP_QUEUE,))
             },
             self._APT_DICT_KEY: {
                 self._SERVICE_DICT_KEY: PackageKitService(progress_publisher=self.progress_publisher),
                 "action_queue": self._APT_QUEUE,
-                "worker": Thread(target=self.run_service_queue, args=(self._APT_QUEUE, ))
+                "worker": Thread(target=self._run_service_queue, args=(self._APT_QUEUE, ))
             },
             self._CURATED_DICT_KEY: {
                 self._SERVICE_DICT_KEY: None,  # TODO  replace None for the service intended for curated packages
                 "action_queue": self._CURATED_QUEUE,
-                "worker": Thread(target=self._run_service_queue(), args=(self._CURATED_QUEUE, ))
+                "worker": Thread(target=self._run_service_queue, args=(self._CURATED_QUEUE, ))
             }
         }
-
-    @staticmethod
-    def _run_service_queue(service_queue: Queue):
-        while not service_queue.empty():
-            service_queue.get()()
 
     def install_package(self, name, package_type: str, callback: Callable) -> None:
         """
@@ -59,10 +54,11 @@ class PackageServicesController(metaclass=Singleton):
         """
         try:
             service_queue = self._package_type_services[package_type][self._SERVICE_DICT_KEY]
-            service_install_method = partial(self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
-                                             name)
-            callback_partial = partial(callback, service_install_method)
+            callback_partial = self._build_partial_function(package_type=package_type,
+                                                            args=(name, ),
+                                                            callback=callback)
             service_queue.put_nowait(callback_partial)
+
         except KeyError:
             callback("Error")  # TODO Error handling is to be defined
 
@@ -71,8 +67,39 @@ class PackageServicesController(metaclass=Singleton):
         self.snap_service.remove_package(name=name)
         # TODO APT
 
-    def list_installed_packages(self):
+    def _run_list_installed_packages(self, callback: Callable):
+        """
+            TODO Make each service run simultaneously
+        """
         list_of_packages = {}
-        list_of_packages.update({"curated": None})  # TODO Change None for implementation for curated
-        list_of_packages.update({"snap": self._package_type_services['snap'][self._SERVICE_DICT_KEY].list_installed_packages()})
-        list_of_packages.update({"apt": self._package_type_services['apt'][self._SERVICE_DICT_KEY].list_installed_packages()})
+        # list_of_packages.update({self._CURATED_DICT_KEY: None})  # TODO Change None for implementation for curated
+        list_of_packages.update({self._SNAP_DICT_KEY: self._package_type_services[self._SNAP_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
+        list_of_packages.update({self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
+        callback(list_of_packages)
+
+    def list_installed_packages(self, callback: Callable) -> None:
+        """
+            Run a thread that will list every installed packages
+
+        :raise RuntimeWarning
+        """
+        if not self._list_package_thread.isAlive():
+            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start()
+        elif self._list_package_thread.isAlive():
+            raise RuntimeWarning("List installed package is still running")
+
+    def _build_partial_function(self, package_type: str, args: Tuple, callback: Callable) -> Callable:
+        """
+            Create a partial which will allow us to run our function in a thread or store it
+            in a queue
+        """
+        service_install_method = partial(
+            self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
+            *args)
+        return partial(callback, service_install_method)
+
+    @staticmethod
+    def _run_service_queue(service_queue: Queue):
+        while not service_queue.empty():
+            service_queue.get()()
+
