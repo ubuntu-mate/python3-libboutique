@@ -73,5 +73,5 @@ class PackageServicesController(metaclass=Singleton):
     def list_installed_packages(self):
         list_of_packages = {}
         list_of_packages.update({"curated": None})  # TODO Change None for implementation for curated
-        list_of_packages.update({"snap": self.snap_service.list_installed_packages()})
-        list_of_packages.update({"apt": None})  # TODO  Change None for implementation for apt
+        list_of_packages.update({"snap": self._package_type_services['snap'][self._SERVICE_DICT_KEY].list_installed_packages()})
+        list_of_packages.update({"apt": self._package_type_services['apt'][self._SERVICE_DICT_KEY].list_installed_packages()})
