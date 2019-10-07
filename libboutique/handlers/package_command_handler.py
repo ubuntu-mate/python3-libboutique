@@ -55,7 +55,7 @@ class PackageCommandHandler(metaclass=Singleton):
             of thee back
         """
         try:
-            service_queue = self._package_type_services[package_type][self._SERVICE_DICT_KEY][self._]
+            service_queue = self._package_type_services[package_type][self._SERVICE_DICT_KEY][self._ACTION_QUEUE_DICT_KEY]
             callback_partial = self._build_partial_function(package_type=package_type,
                                                             args=(name, ),
                                                             callback=callback)
