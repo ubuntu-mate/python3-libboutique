@@ -2,7 +2,7 @@
 import argparse
 
 from libboutique.publisher.progress_publisher import ProgressPublisher
-from libboutique.controller.package_services_controller import PackageServicesController
+from libboutique.handlers.package_command_handler import PackageCommandHandler
 
 
 def show_progress(package, progress):
@@ -11,7 +11,7 @@ def show_progress(package, progress):
 
 
 if __name__ == "__main__":
-    command_handler = PackageServicesController(callback_subscribe=show_progress)
+    command_handler = PackageCommandHandler(callback_subscribe=show_progress)
 
     commands = {
         "install_app=": command_handler.install_package,

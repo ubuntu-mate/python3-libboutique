@@ -62,6 +62,12 @@ class TestPackageKitCommonService(CommonServiceTests):
         """
         pass
 
+    def test_refresh_cache(self):
+        """
+            Test no force refresh cache
+        """
+        pass
+
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
         """

@@ -9,7 +9,7 @@ from libboutique.services.snap.snap_service import SnapService
 from libboutique.services.packagekit.packagekit_service import PackageKitService
 
 
-class PackageServicesController(metaclass=Singleton):
+class PackageCommandHandler(metaclass=Singleton):
     """
         Takes care of the threads and process required
         to make the backend and frontend work seamlessly
