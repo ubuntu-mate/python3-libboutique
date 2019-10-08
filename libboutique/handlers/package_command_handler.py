@@ -55,18 +55,27 @@ class PackageCommandHandler(metaclass=Singleton):
             of thee back
         """
         try:
-            service_queue = self._package_type_services[package_type][self._SERVICE_DICT_KEY][self._ACTION_QUEUE_DICT_KEY]
-            callback_partial = self._build_partial_function(package_type=package_type,
+            package_type_service = self._package_type_services[package_type]
+            service_queue = self._package_type_services[package_type][self._ACTION_QUEUE_DICT_KEY]
+            callback_partial = self._build_partial_function(fn=self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
                                                             args=(name, ),
                                                             callback=callback)
             service_queue.put_nowait(callback_partial)
+            self._start_the_worker(worker=package_type_service[self._WORKER_DICT_KEY])
         except KeyError:
             callback("Error")  # TODO Error handling is to be defined
 
-    def remove_package(self, name):
-        # TODO Curated package
-        self.snap_service.remove_package(name=name)
-        # TODO APT
+    def remove_package(self, name, package_type: str, callback: Callable) -> None:
+        try:
+            package_type_service = self._package_type_services[package_type]
+            service_queue = package_type_service[self._ACTION_QUEUE_DICT_KEY]
+            callback_patial = self._build_partial_function(fn=package_type_service[self._SERVICE_DICT_KEY].remove_package,
+                                                           args=(name, ),
+                                                           callback=callback)
+            service_queue.put_nowait(callback_patial)
+            self._start_the_worker(worker=package_type_service[self._WORKER_DICT_KEY])
+        except KeyError:
+            callback("Error")  # TODO Error handling is to be defined
 
     def list_installed_packages(self, callback: Callable) -> None:
         """
