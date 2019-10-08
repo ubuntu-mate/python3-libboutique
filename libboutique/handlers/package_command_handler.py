@@ -75,18 +75,15 @@ class PackageCommandHandler(metaclass=Singleton):
         :raise RuntimeWarning
         """
         if not self._list_package_thread.isAlive():
-            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start()
-        elif self._list_package_thread.isAlive():
+            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start() elif self._list_package_thread.isAlive():
             raise RuntimeWarning("List installed package is still running")
 
-    def _build_partial_function(self, package_type: str, args: Tuple, callback: Callable) -> Callable:
+    def _build_partial_function(self, fn: Callable, args: Tuple, callback: Callable) -> Callable:
         """
             Create a partial which will allow us to run our function in a thread or store it
             in a queue
         """
-        service_install_method = partial(
-            self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
-            *args)
+        service_install_method = partial(fn, *args)
         return partial(callback, service_install_method)
 
     def _run_list_installed_packages(self, callback: Callable):

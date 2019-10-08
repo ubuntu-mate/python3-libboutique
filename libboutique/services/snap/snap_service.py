@@ -21,6 +21,7 @@ class SnapService(BasePackageService):
         * help search for a snap using:
             * package name
     """
+
     PACKAGE_TYPE = "snap"
 
     def __init__(self, progress_publisher=None):

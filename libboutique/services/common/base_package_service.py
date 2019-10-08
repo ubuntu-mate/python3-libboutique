@@ -9,6 +9,7 @@ class BasePackageService:
     """
         Base class for each Package Services i.e PackageKit and Snap
     """
+
     PACKAGE_TYPE = "Unknown"
 
     def __init__(self, progress_publisher=None):
@@ -38,8 +39,14 @@ class BasePackageService:
     @classmethod
     def get_package_installation_date_by_package_name(cls, package_name):
         with db_session() as session:
-            return session.query(InstallationDates).filter(InstallationDates.package_name == package_name
-                                                           and InstallationDates.package_type == cls.PACKAGE_TYPE).first()
+            return (
+                session.query(InstallationDates)
+                .filter(
+                    InstallationDates.package_name == package_name
+                    and InstallationDates.package_type == cls.PACKAGE_TYPE
+                )
+                .first()
+            )
 
     def _extract_package_to_dict(self, package) -> Dict:
         return {

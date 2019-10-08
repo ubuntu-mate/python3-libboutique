@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 import gi
+
 gi.require_version("Snapd", "1")
 from gi.repository import Snapd
 
@@ -10,6 +11,7 @@ from tests.common_service_tests import CommonServiceTests
 
 class TestSnapCommonService(CommonServiceTests):
     """TestSnapService"""
+
     APPLICATION_TO_INSTALL_REMOVE = "bw"
     PACKAGE_TYPE = "snap"
 
@@ -35,7 +37,10 @@ class TestSnapCommonService(CommonServiceTests):
             snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
             snap_client = snap_service.snap_client
             snap_client.install2_sync.assert_called_once_with(
-                flags=0, name=self.APPLICATION_TO_INSTALL_REMOVE, channel="stable", progress_callback=snap_service.progress_callback
+                flags=0,
+                name=self.APPLICATION_TO_INSTALL_REMOVE,
+                channel="stable",
+                progress_callback=snap_service.progress_callback,
             )
 
     def test_remove_package_mocked_snap(self):
@@ -52,9 +57,13 @@ class TestSnapCommonService(CommonServiceTests):
         """testInstallPackageTwice"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         result = snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         assert result.get("code") == 14
         assert result.get("message") == f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is already installed'
         assert result.get("args") == (f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is already installed',)
@@ -64,9 +73,13 @@ class TestSnapCommonService(CommonServiceTests):
         """testInstallNewPackage"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         result = snap_service.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         assert result.get("action") == "install"
         assert result.get("message") == "success"
         assert isinstance(result.get("arguments"), tuple)
@@ -75,9 +88,13 @@ class TestSnapCommonService(CommonServiceTests):
         """testRemoveTwicePackage"""
         snap_service = SnapService(progress_publisher=None)
         snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         result = snap_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
-        self.assert_no_installation_date(package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_no_installation_date(
+            package_service=snap_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
         assert result.get("code") == 15
         assert result.get("message") == f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is not installed'
         assert result.get("args") == (f'snap "{self.APPLICATION_TO_INSTALL_REMOVE}" is not installed',)

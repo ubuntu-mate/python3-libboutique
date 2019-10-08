@@ -17,7 +17,9 @@ class CommonServiceTests:
         """
             Assert installation dates
         """
-        installation_date = package_service.get_package_installation_date_by_package_name(package_name=expected_package_name)
+        installation_date = package_service.get_package_installation_date_by_package_name(
+            package_name=expected_package_name
+        )
         now = datetime.now()
         assert installation_date.package_type == cls.PACKAGE_TYPE
         assert installation_date.package_name == expected_package_name
@@ -32,4 +34,3 @@ class CommonServiceTests:
             Assert that there is nothing in the database
         """
         assert package_service.get_package_installation_date_by_package_name(expected_package_name) is None
-

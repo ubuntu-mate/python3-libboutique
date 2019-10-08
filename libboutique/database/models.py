@@ -15,8 +15,8 @@ Base = declarative_base()
 
 class InstallationDates(Base):
     __tablename__ = "InstallationDates"
-    package_name = Column('packageName', String(32), primary_key=True)
-    package_type = Column("packageType", String(10),  nullable=False)  # curated, snap, apt ( PackageKit )
+    package_name = Column("packageName", String(32), primary_key=True)
+    package_type = Column("packageType", String(10), nullable=False)  # curated, snap, apt ( PackageKit )
     installation_datetime = Column("installationDatetime", DateTime(timezone=True), default=datetime.now())
 
 

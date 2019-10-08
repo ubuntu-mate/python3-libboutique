@@ -28,6 +28,3 @@ class transaction_feedback_decorator:
                 return format_glib_error(exception=ex)
 
         return wrapper
-
-
-

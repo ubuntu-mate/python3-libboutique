@@ -24,6 +24,7 @@ class PackageKitService(BasePackageService):
         ############################################
         ********************************************
     """
+
     PACKAGE_TYPE = "apt"
 
     def __init__(self, progress_publisher=None):
@@ -46,7 +47,9 @@ class PackageKitService(BasePackageService):
         """
             refresh the cache of the package manager
         """
-        self.packagekit_client.refresh_cache(force=force_refresh, progress_callback=self._progress_callback, progress_user_data=())
+        self.packagekit_client.refresh_cache(
+            force=force_refresh, progress_callback=self._progress_callback, progress_user_data=()
+        )
 
     def list_installed_packages(self) -> List:
         """
@@ -120,10 +123,9 @@ class PackageKitService(BasePackageService):
 
     @transaction_feedback_decorator(TransactionActionsEnum.REFRESH_CACHE)
     def update_cache(self, force=True):
-        self.packagekit_client.refresh_cache(force-force,
-                                             cancellable=None,
-                                             progress_callback=self._progress_callback,
-                                             progress_user_data=())
+        self.packagekit_client.refresh_cache(
+            force - force, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()
+        )
 
     def _create_dict_array_from_package_array(self, package_iterable: Iterable) -> List:
         """
