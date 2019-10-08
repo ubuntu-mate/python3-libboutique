@@ -105,9 +105,16 @@ class PackageCommandHandler(metaclass=Singleton):
         list_of_packages.update({self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
         callback(list_of_packages)
 
+    @staticmethod
+    def _start_the_worker(worker: Thread) -> None:
+        """
+            We want only 1 thread running per service
+            at a time
+        """
+        if not worker.isAlive():
+            worker.start()
 
     @staticmethod
     def _run_service_queue(service_queue: Queue):
         while not service_queue.empty():
-            service_queue.get()()
-
+            service_queue.get()() # Calling the function stored ( Install or Remove
