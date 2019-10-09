@@ -112,9 +112,9 @@ class PackageKitService(BasePackageService):
             )
         )
 
-    #  @transaction_feedback_decorator(TransactionActionsEnum.REFRESH_CACHE)
+    @transaction_feedback_decorator(TransactionActionsEnum.REFRESH_CACHE)
     def refresh_cache(self, force=True):
-        self.packagekit_client.refresh_cache(
+        return self.packagekit_client.refresh_cache(
             force - force, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()
         )
 
