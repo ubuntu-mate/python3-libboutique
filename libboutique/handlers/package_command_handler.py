@@ -84,7 +84,8 @@ class PackageCommandHandler(metaclass=Singleton):
         :raise RuntimeWarning
         """
         if not self._list_package_thread.isAlive():
-            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start() elif self._list_package_thread.isAlive():
+            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start()
+        elif self._list_package_thread.isAlive():
             raise RuntimeWarning("List installed package is still running")
 
     def _build_partial_function(self, fn: Callable, args: Tuple, callback: Callable) -> Callable:
