@@ -1,6 +1,7 @@
 import gi
 
 from typing import Dict
+from time import time
 
 gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
@@ -68,7 +69,10 @@ class TestPackageKitCommonService(CommonServiceTests):
         """
             Test no force refresh cache
         """
-        pass
+        package_kit_service = PackageKitService()
+        start_time = time()
+        package_kit_service.refresh_cache()
+        assert start_time < time()
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
