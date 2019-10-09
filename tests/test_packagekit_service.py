@@ -7,6 +7,7 @@ gi.require_version("PackageKitGlib", "1.0")
 from gi.repository import PackageKitGlib
 
 from libboutique.services.packagekit.packagekit_service import PackageKitService
+from libboutique.common.transaction_actions import TransactionActionsEnum
 from tests.common_service_tests import CommonServiceTests
 
 
@@ -71,8 +72,22 @@ class TestPackageKitCommonService(CommonServiceTests):
         """
         package_kit_service = PackageKitService()
         start_time = time()
-        package_kit_service.refresh_cache()
-        assert start_time < time()
+        res = package_kit_service.refresh_cache()
+        end_time = time()
+        assert start_time < end_time
+        self.assert_refresh_cache_structure(package_kit_service=package_kit_service,
+                                            response=res)
+
+    def test_force_refresh_cache(self):
+        package_kit_service = PackageKitService()
+        start_time = time()
+        res = package_kit_service.refresh_cache()
+        end_time = time()
+        assert start_time < end_time
+        time_elapsed = end_time - start_time
+        assert time_elapsed > 2  # Determined that an apt update takes about 2 sec
+        self.assert_refresh_cache_structure(package_kit_service=package_kit_service,
+                                            response=res)
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
@@ -88,3 +103,11 @@ class TestPackageKitCommonService(CommonServiceTests):
         assert package.get("arch") is not None
         assert package.get("data") is not None
         assert package.get("is_installed") is not None
+
+    @staticmethod
+    def assert_refresh_cache_structure(package_kit_service, response):
+        assert response.get("action") == TransactionActionsEnum.REFRESH_CACHE.value
+        assert response.get("arguments") == ((package_kit_service, ), {})
+        assert response.get("message") == "success"
+
+
