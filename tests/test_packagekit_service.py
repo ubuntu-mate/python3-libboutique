@@ -75,8 +75,7 @@ class TestPackageKitCommonService(CommonServiceTests):
         res = package_kit_service.refresh_cache()
         end_time = time()
         assert start_time < end_time
-        self.assert_refresh_cache_structure(package_kit_service=package_kit_service,
-                                            response=res)
+        self.assert_refresh_cache_structure(package_kit_service=package_kit_service, response=res)
 
     def test_force_refresh_cache(self):
         package_kit_service = PackageKitService()
@@ -86,16 +85,14 @@ class TestPackageKitCommonService(CommonServiceTests):
         assert start_time < end_time
         time_elapsed = end_time - start_time
         assert time_elapsed > 2  # Determined that an apt update takes about 2 sec
-        self.assert_refresh_cache_structure(package_kit_service=package_kit_service,
-                                            response=res)
+        self.assert_refresh_cache_structure(package_kit_service=package_kit_service, response=res)
 
     def test_repair_dpkg(self):
         package_kit_setvice = PackageKitService()
         result = package_kit_setvice.repair_dpkg()
         assert result.get("action") == TransactionActionsEnum.REPAIR.value
-        assert result.get("arguments") == ((package_kit_setvice, ), {})
+        assert result.get("arguments") == ((package_kit_setvice,), {})
         assert result.get("message") == "success"
-
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
@@ -115,7 +112,5 @@ class TestPackageKitCommonService(CommonServiceTests):
     @staticmethod
     def assert_refresh_cache_structure(package_kit_service, response):
         assert response.get("action") == TransactionActionsEnum.REFRESH_CACHE.value
-        assert response.get("arguments") == ((package_kit_service, ), {})
+        assert response.get("arguments") == ((package_kit_service,), {})
         assert response.get("message") == "success"
-
-
