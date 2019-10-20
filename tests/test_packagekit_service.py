@@ -89,6 +89,14 @@ class TestPackageKitCommonService(CommonServiceTests):
         self.assert_refresh_cache_structure(package_kit_service=package_kit_service,
                                             response=res)
 
+    def test_repair_dpkg(self):
+        package_kit_setvice = PackageKitService()
+        result = package_kit_setvice.repair_dpkg()
+        assert result.get("action") == TransactionActionsEnum.REPAIR.value
+        assert result.get("arguments") == ((package_kit_setvice, ), {})
+        assert result.get("message") == "success"
+
+
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
         """
