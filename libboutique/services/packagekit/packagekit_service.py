@@ -91,7 +91,7 @@ class PackageKitService(BasePackageService):
             progress_user_data=(),
         )
 
-    @transaction_feedback_decorator(action=TransactionActionsEnum.)
+    @transaction_feedback_decorator(action=TransactionActionsEnum.LIST_INSTALLED_REPOS)
     def list_installed_repos(self) -> List:
         """
             List the repos that are installed.
