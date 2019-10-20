@@ -109,7 +109,7 @@ class PackageKitService(BasePackageService):
             ** see class pydoc **
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
-        self.packagekit_client.install_packages(
+        install_result = self.packagekit_client.install_packages(
             transaction_flags=1,  # Trusted
             package_ids=[name],
             cancellable=None,
@@ -117,22 +117,20 @@ class PackageKitService(BasePackageService):
             progress_user_data=None,
         )
         self._save_installation_date(package_name=name)
+        return install_result
 
     def retrieve_package_information_by_name(self, name: str) -> List:
         """
             Return everything from a name provided
         """
+        package_list = self.packagekit_client.get_packages(
+            filters=PackageKitGlib.FilterEnum.from_string("NONE"),
+            cancellable=None,
+            progress_callback=self._progress_callback,
+            progress_user_data=(),
+        ).get_package_array()
         return self._create_dict_array_from_package_array(
-            package_iterable=(
-                p
-                for p in self.packagekit_client.get_packages(
-                    filters=PackageKitGlib.FilterEnum.from_string("NONE"),
-                    cancellable=None,
-                    progress_callback=self._progress_callback,
-                    progress_user_data=(),
-                ).get_package_array()
-                if name in p.get_name()
-            )
+            package_iterable=(p for p in package_list if name in p.get_name())
         )
 
     @transaction_feedback_decorator(TransactionActionsEnum.REFRESH_CACHE)
