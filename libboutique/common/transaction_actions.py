@@ -7,3 +7,4 @@ class TransactionActionsEnum(Enum):
     SEARCH = "search"
     LIST_INSTALLED = "list"
     REFRESH_CACHE = "refresh_cache"
+    REPAIR = "dpkg_repair"
