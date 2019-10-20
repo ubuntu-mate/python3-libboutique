@@ -35,18 +35,18 @@ class PackageCommandHandler(metaclass=Singleton):
             self._SNAP_DICT_KEY: {
                 self._SERVICE_DICT_KEY: SnapService(progress_publisher=self.progress_publisher),
                 self._ACTION_QUEUE_DICT_KEY: self._SNAP_QUEUE,
-                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._SNAP_QUEUE,))
+                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._SNAP_QUEUE,)),
             },
             self._APT_DICT_KEY: {
                 self._SERVICE_DICT_KEY: PackageKitService(progress_publisher=self.progress_publisher),
                 self._ACTION_QUEUE_DICT_KEY: self._APT_QUEUE,
-                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._APT_QUEUE, ))
+                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._APT_QUEUE,)),
             },
             self._CURATED_DICT_KEY: {
                 self._SERVICE_DICT_KEY: None,  # TODO  replace None for the service intended for curated packages
                 self._ACTION_QUEUE_DICT_KEY: self._CURATED_QUEUE,
-                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._CURATED_QUEUE, ))
-            }
+                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._CURATED_QUEUE,)),
+            },
         }
 
     def install_package(self, name, package_type: str, callback: Callable) -> None:
@@ -57,9 +57,11 @@ class PackageCommandHandler(metaclass=Singleton):
         try:
             package_type_service = self._package_type_services[package_type]
             service_queue = self._package_type_services[package_type][self._ACTION_QUEUE_DICT_KEY]
-            callback_partial = self._build_partial_function(fn=self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
-                                                            args=(name, ),
-                                                            callback=callback)
+            callback_partial = self._build_partial_function(
+                fn=self._package_type_services[package_type][self._SERVICE_DICT_KEY].install_package,
+                args=(name,),
+                callback=callback,
+            )
             service_queue.put_nowait(callback_partial)
             self._start_the_worker(worker=package_type_service[self._WORKER_DICT_KEY])
         except KeyError:
@@ -69,9 +71,9 @@ class PackageCommandHandler(metaclass=Singleton):
         try:
             package_type_service = self._package_type_services[package_type]
             service_queue = package_type_service[self._ACTION_QUEUE_DICT_KEY]
-            callback_patial = self._build_partial_function(fn=package_type_service[self._SERVICE_DICT_KEY].remove_package,
-                                                           args=(name, ),
-                                                           callback=callback)
+            callback_patial = self._build_partial_function(
+                fn=package_type_service[self._SERVICE_DICT_KEY].remove_package, args=(name,), callback=callback
+            )
             service_queue.put_nowait(callback_patial)
             self._start_the_worker(worker=package_type_service[self._WORKER_DICT_KEY])
         except KeyError:
@@ -84,7 +86,7 @@ class PackageCommandHandler(metaclass=Singleton):
         :raise RuntimeWarning
         """
         if not self._list_package_thread.isAlive():
-            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback, )).start()
+            self._list_package_thread = Thread(target=self._run_list_installed_packages, args=(callback,)).start()
         elif self._list_package_thread.isAlive():
             raise RuntimeWarning("List installed package is still running")
 
@@ -102,8 +104,20 @@ class PackageCommandHandler(metaclass=Singleton):
         """
         list_of_packages = {}
         # list_of_packages.update({self._CURATED_DICT_KEY: None})  # TODO Change None for implementation for curated
-        list_of_packages.update({self._SNAP_DICT_KEY: self._package_type_services[self._SNAP_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
-        list_of_packages.update({self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][self._SERVICE_DICT_KEY].list_installed_packages()})
+        list_of_packages.update(
+            {
+                self._SNAP_DICT_KEY: self._package_type_services[self._SNAP_DICT_KEY][
+                    self._SERVICE_DICT_KEY
+                ].list_installed_packages()
+            }
+        )
+        list_of_packages.update(
+            {
+                self._APT_DICT_KEY: self._package_type_services[self._APT_DICT_KEY][
+                    self._SERVICE_DICT_KEY
+                ].list_installed_packages()
+            }
+        )
         callback(list_of_packages)
 
     @staticmethod
@@ -118,4 +132,4 @@ class PackageCommandHandler(metaclass=Singleton):
     @staticmethod
     def _run_service_queue(service_queue: Queue):
         while not service_queue.empty():
-            service_queue.get()() # Calling the function stored ( Install or Remove
+            service_queue.get()()  # Calling the function stored ( Install or Remove

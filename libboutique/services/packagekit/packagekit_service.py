@@ -1,4 +1,4 @@
-from typing import List, Optional, Iterable
+from typing import Dict, List, Optional, Iterable, Generator
 
 from libboutique.services.common.base_package_service import BasePackageService
 from libboutique.common.transaction_feedback_decorator import transaction_feedback_decorator
@@ -97,12 +97,12 @@ class PackageKitService(BasePackageService):
             List the repos that are installed.
             Both the enabled and disabled are returned
         """
-        self.packagekit_client.get_repo_list(
+        return self.packagekit_client.get_repo_list(
             filters=1,  # Trusted
             cancellable=None,
             progress_callback=self._progress_callback,
             progress_user_data=()
-        )
+        ).get_repo_detail_array()
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
