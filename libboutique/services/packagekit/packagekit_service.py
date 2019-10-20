@@ -157,6 +157,16 @@ class PackageKitService(BasePackageService):
             "is_installed": "installed" in package.get_data(),
         }
 
+    @staticmethod
+    def _extract_repo_to_dict(repository) -> Dict:
+        """
+        """
+        return {
+            "id": repository.get_id(),
+            "description": repository.get_description(),
+            "enabled": repository.get_enabled(),
+        }
+
     def _extract_information_from_strings(self, package):
         """__extract_information_from_strings
             Some Package informations are stored in
