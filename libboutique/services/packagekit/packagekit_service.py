@@ -79,6 +79,18 @@ class PackageKitService(BasePackageService):
         )
         self._remove_install_date(package_name=name.replace("installed:", "").strip())
 
+    @transaction_feedback_decorator(action=TransactionActionsEnum.REPAIR)
+    def repair_dpkg(self):
+        """
+            apt --fix-broken install
+        """
+        self.packagekit_client.repair_system(
+            transaction_flags=1,
+            cancellable=None,
+            progress_callback=self._progress_callback,
+            progress_user_data=(),
+        )
+
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
         """
