@@ -91,6 +91,19 @@ class PackageKitService(BasePackageService):
             progress_user_data=(),
         )
 
+    @transaction_feedback_decorator(action=TransactionActionsEnum.)
+    def list_installed_repos(self) -> List:
+        """
+            List the repos that are installed.
+            Both the enabled and disabled are returned
+        """
+        self.packagekit_client.get_repo_list(
+            filters=1,  # Trusted
+            cancellable=None,
+            progress_callback=self._progress_callback,
+            progress_user_data=()
+        )
+
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
         """
