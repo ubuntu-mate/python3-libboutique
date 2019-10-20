@@ -85,24 +85,22 @@ class PackageKitService(BasePackageService):
             apt --fix-broken install
         """
         self.packagekit_client.repair_system(
-            transaction_flags=1,
-            cancellable=None,
-            progress_callback=self._progress_callback,
-            progress_user_data=(),
+            transaction_flags=1, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()
         )
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.LIST_INSTALLED_REPOS)
-    def list_installed_repos(self) -> List:
+    def list_installed_repos(self) -> Generator:
         """
             List the repos that are installed.
             Both the enabled and disabled are returned
         """
-        return self.packagekit_client.get_repo_list(
+        repo_list = self.packagekit_client.get_repo_list(
             filters=1,  # Trusted
             cancellable=None,
             progress_callback=self._progress_callback,
             progress_user_data=()
         ).get_repo_detail_array()
+        return (self._extract_repo_to_dict(repo) for repo in repo_list)
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
