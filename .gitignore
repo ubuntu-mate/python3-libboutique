@@ -9,3 +9,6 @@
 *.egg-info/
 htmlcov/
 **/*.sqlite
+docs/**/*html
+docs/build/html
+docs/buid/*/
