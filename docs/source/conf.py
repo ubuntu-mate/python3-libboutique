@@ -20,8 +20,8 @@ sys.path.insert(0, os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'python3-libboutique'
-copyright = '2019, Ubuntu MATE, Jean-Francois Labonte'
-author = 'Ubuntu MATE, Jean-Francois Labonte'
+copyright = '2019, Ubuntu MATE'
+author = 'Jean-Francois Labonte'
 
 # The short X.Y version
 version = ''

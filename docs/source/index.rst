@@ -14,6 +14,8 @@ The library behind the Ubuntu MATE Software Boutique
 
    commons/index.rst
    services/index.rst
+   handlers/index.rst
+   database/index.rst
 
 Indices and tables
 ==================
