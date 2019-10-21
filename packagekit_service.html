@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module packagekit_service</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>packagekit_service</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/jflabonte/Development/Open_Source/python3-boutique/libboutique/services/packagekit/packagekit_service.py">/home/jflabonte/Development/Open_Source/python3-boutique/libboutique/services/packagekit/packagekit_service.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="gi.html">gi</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="packagekit_service.html#PackageKitService">PackageKitService</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PackageKitService">class <strong>PackageKitService</strong></a>(<a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#PackageKitService">PackageKitService</a>(progress_publisher=None)<br>
+&nbsp;<br>
+Service&nbsp;that&nbsp;takes&nbsp;care&nbsp;of:<br>
+*&nbsp;Install&nbsp;a&nbsp;package<br>
+*&nbsp;List&nbsp;installed&nbsp;packages<br>
+*&nbsp;Uninstall&nbsp;a&nbsp;package<br>
+*&nbsp;Search&nbsp;for&nbsp;a&nbsp;package<br>
+&nbsp;<br>
+***********PACKAGE_FORMAT_EXPECTED**********<br>
+############################################<br>
+#####&nbsp;package_name;version;arch;distro&nbsp;#####<br>
+############################################<br>
+********************************************<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="packagekit_service.html#PackageKitService">PackageKitService</a></dd>
+<dd><a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="PackageKitService-__init__"><strong>__init__</strong></a>(self, progress_publisher=None)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-install_package"><strong>install_package</strong></a>(self, name: str)</dt><dd><tt>The&nbsp;name&nbsp;has&nbsp;to&nbsp;be&nbsp;formatted&nbsp;as&nbsp;a&nbsp;package_id<br>
+**&nbsp;see&nbsp;class&nbsp;pydoc&nbsp;**<br>
+Transaction&nbsp;Flags&nbsp;Docs:&nbsp;<a href="http://tiny.cc/dynhbz">http://tiny.cc/dynhbz</a></tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-list_installed_packages"><strong>list_installed_packages</strong></a>(self) -&gt; List</dt><dd><tt>Takes&nbsp;care&nbsp;of&nbsp;retrieving&nbsp;and<br>
+returning&nbsp;a&nbsp;list&nbsp;of&nbsp;install&nbsp;packages</tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-list_installed_repos"><strong>list_installed_repos</strong></a>(self) -&gt; Generator</dt><dd><tt>List&nbsp;the&nbsp;repos&nbsp;that&nbsp;are&nbsp;installed.<br>
+Both&nbsp;the&nbsp;enabled&nbsp;and&nbsp;disabled&nbsp;are&nbsp;returned</tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-refresh_cache"><strong>refresh_cache</strong></a>(self, force=True)</dt></dl>
+
+<dl><dt><a name="PackageKitService-remove_package"><strong>remove_package</strong></a>(self, name: str)</dt><dd><tt>The&nbsp;name&nbsp;has&nbsp;to&nbsp;be&nbsp;formatted&nbsp;as&nbsp;a&nbsp;package_id<br>
+**&nbsp;see&nbsp;class&nbsp;pydoc&nbsp;**<br>
+&nbsp;<br>
+Transaction&nbsp;Flags&nbsp;Docs:&nbsp;<a href="http://tiny.cc/dynhbz">http://tiny.cc/dynhbz</a></tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-repair_dpkg"><strong>repair_dpkg</strong></a>(self)</dt><dd><tt>apt&nbsp;--fix-broken&nbsp;install</tt></dd></dl>
+
+<dl><dt><a name="PackageKitService-retrieve_package_information_by_name"><strong>retrieve_package_information_by_name</strong></a>(self, name: str) -&gt; List</dt><dd><tt>Return&nbsp;everything&nbsp;from&nbsp;a&nbsp;name&nbsp;provided</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>PACKAGE_TYPE</strong> = 'apt'</dl>
+
+<hr>
+Class methods inherited from <a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a>:<br>
+<dl><dt><a name="PackageKitService-get_package_installation_date_by_package_name"><strong>get_package_installation_date_by_package_name</strong></a>(package_name)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt></dl>
+
+<hr>
+Static methods inherited from <a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a>:<br>
+<dl><dt><a name="PackageKitService-get_all_package_installation_dates"><strong>get_all_package_installation_dates</strong></a>() -&gt; [&lt;class 'libboutique.database.models.InstallationDates'&gt;]</dt><dd><tt>Retrieve&nbsp;all&nbsp;the&nbsp;installation&nbsp;dates</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="libboutique.services.common.base_package_service.html#BasePackageService">libboutique.services.common.base_package_service.BasePackageService</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Dict</strong> = typing.Dict<br>
+<strong>Generator</strong> = typing.Generator<br>
+<strong>Iterable</strong> = typing.Iterable<br>
+<strong>List</strong> = typing.List<br>
+<strong>Optional</strong> = typing.Optional<br>
+<strong>PackageKitGlib</strong> = &lt;IntrospectionModule 'PackageKitGlib' from '/usr/lib/girepository-1.0/PackageKitGlib-1.0.typelib'&gt;</td></tr></table>
+</body></html>

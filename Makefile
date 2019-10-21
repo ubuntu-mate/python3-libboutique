@@ -17,3 +17,6 @@ unittest:
 report:
 	coverage report
 	coverage html
+
+build_doc:
+	cd docs && sphinx-build -b html source/ build/
