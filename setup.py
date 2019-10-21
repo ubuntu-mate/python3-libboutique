@@ -9,7 +9,7 @@ setup(
     version="0.1.0",
     description="Software Boutique's management for curated applications with interfaces for Apt, Snapd and others.",
     long_description=readme,
-    author="Jeff Labonté",
+    author="Jeff Labonte",
     author_email="jeff.labonte12@gmail.com",
     url="https://github.com/ubuntu-mate/python3-boutique",
     packages=find_packages(exclude=("tests", "docs")),

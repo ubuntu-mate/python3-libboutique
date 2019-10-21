@@ -43,7 +43,7 @@
 <span class="kn">from</span> <span class="nn">gi.repository</span> <span class="k">import</span> <span class="n">PackageKitGlib</span>
 
 
-<div class="viewcode-block" id="PackageKitService"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService">[docs]</a><span class="k">class</span> <span class="nc">PackageKitService</span><span class="p">(</span><span class="n">BasePackageService</span><span class="p">):</span>
+<div class="viewcode-block" id="PackageKitService"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService">[docs]</a><span class="k">class</span> <span class="nc">PackageKitService</span><span class="p">(</span><span class="n">BasePackageService</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Service that takes care of:</span>
 <span class="sd">        * Install a package</span>
@@ -75,7 +75,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress_publisher</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-<div class="viewcode-block" id="PackageKitService.list_installed_packages"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.list_installed_packages">[docs]</a>    <span class="k">def</span> <span class="nf">list_installed_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<div class="viewcode-block" id="PackageKitService.list_installed_packages"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.list_installed_packages">[docs]</a>    <span class="k">def</span> <span class="nf">list_installed_packages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Takes care of retrieving and</span>
 <span class="sd">            returning a list of install packages</span>
@@ -93,7 +93,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PackageKitService.remove_package"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.remove_package">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">REMOVE</span><span class="p">)</span>
+<div class="viewcode-block" id="PackageKitService.remove_package"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.remove_package">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">REMOVE</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">remove_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The name has to be formatted as a package_id</span>
@@ -112,7 +112,7 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remove_install_date</span><span class="p">(</span><span class="n">package_name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;installed:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="PackageKitService.repair_dpkg"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.repair_dpkg">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">REPAIR</span><span class="p">)</span>
+<div class="viewcode-block" id="PackageKitService.repair_dpkg"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.repair_dpkg">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">REPAIR</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">repair_dpkg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            apt --fix-broken install</span>
@@ -121,7 +121,7 @@
             <span class="n">transaction_flags</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cancellable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">progress_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_progress_callback</span><span class="p">,</span> <span class="n">progress_user_data</span><span class="o">=</span><span class="p">()</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PackageKitService.list_installed_repos"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.list_installed_repos">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">LIST_INSTALLED_REPOS</span><span class="p">)</span>
+<div class="viewcode-block" id="PackageKitService.list_installed_repos"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.list_installed_repos">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">LIST_INSTALLED_REPOS</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">list_installed_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            List the repos that are installed.</span>
@@ -135,7 +135,7 @@
         <span class="p">)</span><span class="o">.</span><span class="n">get_repo_detail_array</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extract_repo_to_dict</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span> <span class="k">for</span> <span class="n">repo</span> <span class="ow">in</span> <span class="n">repo_list</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PackageKitService.install_package"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.install_package">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">INSTALL</span><span class="p">)</span>
+<div class="viewcode-block" id="PackageKitService.install_package"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.install_package">[docs]</a>    <span class="nd">@transaction_feedback_decorator</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">TransactionActionsEnum</span><span class="o">.</span><span class="n">INSTALL</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">install_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The name has to be formatted as a package_id</span>
@@ -152,7 +152,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_installation_date</span><span class="p">(</span><span class="n">package_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">install_result</span></div>
 
-<div class="viewcode-block" id="PackageKitService.retrieve_package_information_by_name"><a class="viewcode-back" href="../../../../commons/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.retrieve_package_information_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_package_information_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<div class="viewcode-block" id="PackageKitService.retrieve_package_information_by_name"><a class="viewcode-back" href="../../../../services/index.html#libboutique.services.packagekit.packagekit_service.PackageKitService.retrieve_package_information_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_package_information_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Return everything from a name provided</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -230,6 +230,7 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../commons/index.html">libboutique.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../services/index.html">libboutique.services</a></li>
 </ul>
 
 <div class="relations">

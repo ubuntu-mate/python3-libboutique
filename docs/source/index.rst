@@ -6,18 +6,14 @@
 Welcome to python3-libboutique's documentation!
 ===============================================
 
-Top Header
-*********
-
 The library behind the Ubuntu MATE Software Boutique
-
-.. automodule: libboutique
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   commons/index.rst
+   services/index.rst
 
 Indices and tables
 ==================
