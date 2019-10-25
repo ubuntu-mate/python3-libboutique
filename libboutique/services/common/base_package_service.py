@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List
 
 from libboutique.database.models import db_session, InstallationDates
@@ -15,6 +16,7 @@ class BasePackageService:
     def __init__(self, progress_publisher=None):
         self.distribution = " ".join(distro.linux_distribution(full_distribution_name=False)[0:2])
         self.progress_publisher = progress_publisher
+        self._logger = logging.basicConfig()
 
     def install_package(self, name: str):
         raise NotImplementedError("You must implement it in your class")
