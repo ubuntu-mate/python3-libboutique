@@ -3,12 +3,12 @@ import gi
 from typing import Dict
 from time import time
 
-gi.require_version("PackageKitGlib", "1.0")
-from gi.repository import PackageKitGlib
-
 from libboutique.services.packagekit.packagekit_service import PackageKitService
 from libboutique.common.transaction_actions import TransactionActionsEnum
 from tests.common_service_tests import CommonServiceTests
+
+gi.require_version("PackageKitGlib", "1.0")
+from gi.repository import PackageKitGlib
 
 
 class TestPackageKitCommonService(CommonServiceTests):
@@ -40,6 +40,16 @@ class TestPackageKitCommonService(CommonServiceTests):
         self.assert_installation_date(package_service=package_kit_service, expected_package_name=package_id)
 
     def test_remove_a_package(self):
+        package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
+        package_kit_service = PackageKitService()
+        result = package_kit_service.remove_package(name=package_id)
+        assert result.get("message") == "success"
+        assert result.get("action") == "remove"
+        self.assert_no_installation_date(
+            package_service=package_kit_service, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
+
+    def test_remove_uninstalled_package(self):
         package_id = self._retrieve_package_id_from_name(name=self.APPLICATION_TO_INSTALL_REMOVE)
         package_kit_service = PackageKitService()
         result = package_kit_service.remove_package(name=package_id)
