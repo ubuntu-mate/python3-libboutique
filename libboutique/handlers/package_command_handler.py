@@ -49,7 +49,7 @@ class PackageCommandHandler(metaclass=Singleton):
             },
         }
 
-    def install_package(self, name, package_type: str, callback: Callable) -> None:
+    def install_package(self, name: str, package_type: str, callback: Callable) -> None:
         """
             From the information in the front-end, initiate an installation
             of thee back
