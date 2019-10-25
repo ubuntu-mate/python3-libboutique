@@ -66,7 +66,13 @@ class BasePackageService:
             session.add(new_installation_date)
 
     @staticmethod
-    def _remove_install_date(package_name):
+    def _remove_install_date(package_name: str) -> None:
+        """
+
+        """
         with db_session() as session:
-            installation_date = session.query(InstallationDates).filter(InstallationDates.package_name == package_name)[0]
-            session.delete(installation_date)
+            try:
+                installation_date = session.query(InstallationDates).filter(InstallationDates.package_name == package_name)[0]
+                session.delete(installation_date)
+            except IndexError:
+                logging.warning(f"{package_name} doesn't exists in the Installation Dates")
