@@ -67,7 +67,10 @@ class PackageCommandHandler(metaclass=Singleton):
         except KeyError:
             callback("Error")  # TODO Error handling is to be defined
 
-    def remove_package(self, name, package_type: str, callback: Callable) -> None:
+    def remove_package(self, name: str, package_type: str, callback: Callable) -> None:
+        """
+            Takes care of populating the queue for the package_type specified.
+        """
         try:
             package_type_service = self._package_type_services[package_type]
             service_queue = package_type_service[self._ACTION_QUEUE_DICT_KEY]
