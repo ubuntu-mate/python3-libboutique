@@ -68,7 +68,7 @@ class PackageKitService(BasePackageService):
 
             Transaction Flags Docs: http://tiny.cc/dynhbz
         """
-        self.packagekit_client.remove_packages(
+        result = self.packagekit_client.remove_packages(
             transaction_flags=1,
             package_ids=[name],
             allow_deps=True,
@@ -78,6 +78,7 @@ class PackageKitService(BasePackageService):
             progress_user_data=(),
         )
         self._remove_install_date(package_name=name.replace("installed:", "").strip())
+        return result
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.REPAIR)
     def repair_dpkg(self):
