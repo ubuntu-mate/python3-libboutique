@@ -24,7 +24,7 @@ class TestSnapCommonService(CommonServiceTests):
         assert package.get("version") is not None
         assert package.get("license", 1) != 1  # Shouldn't be empty
         assert package.get("is_installed") is not None
-        assert "ubuntu" in package.get("distribution")
+        assert package.get("distribution") is not None
         assert package.get("price") is not None
         assert package.get("summary") is not None
 
