@@ -16,7 +16,8 @@ class BasePackageService:
     def __init__(self, progress_publisher=None):
         self.distribution = " ".join(distro.linux_distribution(full_distribution_name=False)[0:2])
         self.progress_publisher = progress_publisher
-        self._logger = logging.basicConfig()
+        logging.basicConfig()
+        self._logger = logging.getLogger()
 
     def install_package(self, name: str):
         raise NotImplementedError("You must implement it in your class")
