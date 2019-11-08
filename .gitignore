@@ -12,3 +12,5 @@ htmlcov/
 docs/**/*html
 docs/build/html
 docs/buid/*/
+build/
+docs/
