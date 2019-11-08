@@ -1,6 +1,7 @@
 # Python3-boutique
 
 [![Build Status](https://travis-ci.org/ubuntu-mate/python3-libboutique.svg?branch=master)](https://travis-ci.org/ubuntu-mate/python3-libboutique)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ubuntu-mate/python3-libboutique.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ubuntu-mate/python3-libboutique/context:python)
 
 Backend library of software-boutique 2.0.
 
