@@ -97,11 +97,21 @@ class TestPackageKitCommonService(CommonServiceTests):
         self.assert_refresh_cache_structure(package_kit_service=package_kit_service, response=res)
 
     def test_repair_dpkg(self):
-        package_kit_setvice = PackageKitService()
-        result = package_kit_setvice.repair_dpkg()
+        result = self.PACKAGE_KIT_SERVICE.repair_dpkg()
         assert result.get("action") == TransactionActionsEnum.REPAIR.value
-        assert result.get("arguments") == ((package_kit_setvice,), {})
+        assert result.get("arguments") == ((self.PACKAGE_KIT_SERVICE,), {})
         assert result.get("message") == "success"
+
+    def test_list_repos(self):
+        result = self.PACKAGE_KIT_SERVICE.list_installed_repos()
+        assert result.get("action") == TransactionActionsEnum.LIST_INSTALLED_REPOS.value
+        assert result.get("arguments") == ((self.PACKAGE_KIT_SERVICE, ), {})
+        list_results = result.get("result")
+        assert isinstance(list_results, list)
+        assert len(list_results) > 1
+        for repo in list_results:
+            assert isinstance(repo.get("description"), str)
+            assert repo.get("enabled") is True
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:

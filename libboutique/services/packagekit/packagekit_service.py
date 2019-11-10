@@ -90,7 +90,7 @@ class PackageKitService(BasePackageService):
         )
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.LIST_INSTALLED_REPOS)
-    def list_installed_repos(self) -> Generator:
+    def list_installed_repos(self) -> List:
         """
             List the repos that are installed.
             Both the enabled and disabled are returned
@@ -98,7 +98,7 @@ class PackageKitService(BasePackageService):
         repo_list = self.packagekit_client.get_repo_list(
             filters=1, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()  # Trusted
         ).get_repo_detail_array()
-        return (self._extract_repo_to_dict(repo) for repo in repo_list)
+        return [self._extract_repo_to_dict(repo) for repo in repo_list if repo.get_enabled() is True]
 
     @transaction_feedback_decorator(action=TransactionActionsEnum.INSTALL)
     def install_package(self, name: str):
