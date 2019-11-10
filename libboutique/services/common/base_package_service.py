@@ -73,7 +73,9 @@ class BasePackageService:
         """
         with db_session() as session:
             try:
-                installation_date = session.query(InstallationDates).filter(InstallationDates.package_name == package_name)[0]
+                installation_date = session.query(InstallationDates).filter(
+                    InstallationDates.package_name == package_name
+                )[0]
                 session.delete(installation_date)
             except IndexError:
                 logging.warning(f"{package_name} doesn't exists in the Installation Dates")

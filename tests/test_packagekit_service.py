@@ -14,6 +14,7 @@ from gi.repository import PackageKitGlib
 def retrieve_package_id_from_name(name):
     return PackageKitService().retrieve_package_information_by_name(name=name)[0].get("package_id")
 
+
 GLANCES_PACKAGE = "glances"
 FLASHBAKE_PACKAGE = "flashbake"
 
@@ -38,7 +39,9 @@ class TestPackageKitCommonService(CommonServiceTests):
         result = self.PACKAGE_KIT_SERVICE.install_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("message") == "success"
         assert result.get("action") == "install"
-        self.assert_installation_date(package_service=self.PACKAGE_KIT_SERVICE, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE)
+        self.assert_installation_date(
+            package_service=self.PACKAGE_KIT_SERVICE, expected_package_name=self.APPLICATION_TO_INSTALL_REMOVE
+        )
 
     def test_remove_a_package(self):
         result = self.PACKAGE_KIT_SERVICE.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
@@ -53,9 +56,7 @@ class TestPackageKitCommonService(CommonServiceTests):
         result = package_kit_service.remove_package(name=self.APPLICATION_TO_INSTALL_REMOVE)
         assert result.get("message") == "success"
         assert result.get("action") == "remove"
-        self.assert_no_installation_date(
-            package_service=package_kit_service, expected_package_name=GLANCES_PACKAGE
-        )
+        self.assert_no_installation_date(package_service=package_kit_service, expected_package_name=GLANCES_PACKAGE)
 
     def test_list_installed_packages(self):
         """

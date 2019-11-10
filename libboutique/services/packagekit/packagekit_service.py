@@ -96,10 +96,7 @@ class PackageKitService(BasePackageService):
             Both the enabled and disabled are returned
         """
         repo_list = self.packagekit_client.get_repo_list(
-            filters=1,  # Trusted
-            cancellable=None,
-            progress_callback=self._progress_callback,
-            progress_user_data=()
+            filters=1, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()  # Trusted
         ).get_repo_detail_array()
         return (self._extract_repo_to_dict(repo) for repo in repo_list)
 
@@ -125,9 +122,9 @@ class PackageKitService(BasePackageService):
         """
             Retrieve the categories from PackageKitGlib
         """
-        return self.packagekit_client.get_categories(cancellable=None,
-                                                     progress_callback=self._progress_callback,
-                                                     progress_user_data=None)
+        return self.packagekit_client.get_categories(
+            cancellable=None, progress_callback=self._progress_callback, progress_user_data=None
+        )
 
     def retrieve_package_information_by_name(self, name: str) -> List:
         """
