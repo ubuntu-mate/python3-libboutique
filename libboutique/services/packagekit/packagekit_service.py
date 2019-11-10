@@ -120,6 +120,15 @@ class PackageKitService(BasePackageService):
         self._save_installation_date(package_name=name)
         return install_result
 
+    @transaction_feedback_decorator(action=TransactionActionsEnum.GET_CATEGORIES)
+    def retrieve_package_categories(self):
+        """
+            Retrieve the categories from PackageKitGlib
+        """
+        return self.packagekit_client.get_categories(cancellable=None,
+                                                     progress_callback=self._progress_callback,
+                                                     progress_user_data=None)
+
     def retrieve_package_information_by_name(self, name: str) -> List:
         """
             Return everything from a name provided
