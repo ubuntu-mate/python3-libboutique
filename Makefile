@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 init:
-	sudo apt install python3-gi python3-sqlalchemy gir1.2-snapd-1 zenity gir1.2-packagekitglib-1.0
+	sudo apt install python3-gi python3-sqlalchemy gir1.2-snapd-1 zenity gir1.2-packagekitglib-1.0 libcairo2-dev libgirepository1.0-dev -y
 
 format:
 	black --config pyproject.toml *
