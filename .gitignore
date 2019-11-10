@@ -14,3 +14,4 @@ docs/build/html
 docs/buid/*/
 build/
 docs/
+*.log
