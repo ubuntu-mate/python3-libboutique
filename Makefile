@@ -12,7 +12,7 @@ setup_dev:
 	source .venv/bin/activate && pip install -r requirements.txt
 
 unittest:
-	sudo su -c "source .venv/bin/activate && coverage run -m pytest -v"
+	sudo su -c "source .venv/bin/activate && coverage run -m pytest -v --maxfail=1 --log-file \"tests.log\""
 
 report:
 	coverage report
