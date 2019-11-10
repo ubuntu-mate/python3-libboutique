@@ -2,9 +2,14 @@ sudo: true
 os: linux
 dist: bionic
 language: python
+git:
+    submodules: false
 python:
   - "3.6"
   - "3.7"
+before_install:
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
 addons:
   apt:
     update: true
