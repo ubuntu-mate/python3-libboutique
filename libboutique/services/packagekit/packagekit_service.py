@@ -45,7 +45,7 @@ class PackageKitService(BasePackageService):
     def list_installed_packages(self) -> List:
         """
             Takes care of retrieving and
-            returning a list of install packages
+            returning a list of installed packages
         """
         return self._create_dict_array_from_package_array(
             package_iterable=(
@@ -83,7 +83,7 @@ class PackageKitService(BasePackageService):
     @transaction_feedback_decorator(action=TransactionActionsEnum.REPAIR)
     def repair_dpkg(self):
         """
-            apt --fix-broken install
+            apt install --fix-broken
         """
         self.packagekit_client.repair_system(
             transaction_flags=1, cancellable=None, progress_callback=self._progress_callback, progress_user_data=()
