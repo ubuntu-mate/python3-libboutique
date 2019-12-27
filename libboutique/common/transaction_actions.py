@@ -10,3 +10,5 @@ class TransactionActionsEnum(Enum):
     GET_CATEGORIES = "get_categories"
     REFRESH_CACHE = "refresh_cache"
     REPAIR = "dpkg_repair"
+    ADD_PPA = "add_ppa"
+    REMOVE_PPA = "remove_ppa"
