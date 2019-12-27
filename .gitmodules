@@ -1,0 +1,3 @@
+[submodule "libboutique/curated_apps"]
+	path = libboutique/curated_apps
+	url = git@github.com:ubuntu-mate/software-boutique-curated-apps.git
