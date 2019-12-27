@@ -27,6 +27,8 @@ class TestPackageKitCommonService(CommonServiceTests):
 
     PACKAGE_TYPE = "apt"
 
+    PPA_TO_ADD =  "ppa:neovim-ppa/stable"
+
     def test_search_packages(self):
         package_name = "flat"
         result = self.PACKAGE_KIT_SERVICE.retrieve_package_information_by_name(name=package_name)
