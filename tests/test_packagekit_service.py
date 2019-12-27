@@ -115,6 +115,11 @@ class TestPackageKitCommonService(CommonServiceTests):
             assert isinstance(repo.get("description"), str)
             assert repo.get("enabled") is True
 
+    def test_add_ppa(self):
+        package_kit_service = PackageKitService()
+        ppa_result = package_kit_service.add_ppa_repository(ppa_uri=self.PPA_TO_ADD)
+        assert ppa_result.get("action") == TransactionActionsEnum.ADD_PPA.value
+
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
         """
