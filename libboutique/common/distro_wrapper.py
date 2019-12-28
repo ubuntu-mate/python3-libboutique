@@ -11,4 +11,4 @@ def get_distro_codename() -> str:
         To reduce useless overhead, this function has the
         decorator @lru_cache
     """
-    return LinuxDistribution.codename()
+    return LinuxDistribution().codename()
