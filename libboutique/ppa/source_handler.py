@@ -39,7 +39,6 @@ class SourceHandler:
         if not self._REGEX_PPA.match(uri):
             raise RuntimeError("Invalid ppa uri")
 
-
     def _extract_information_from_ppa_uri(self, uri: str) -> Tuple:
         """
             Extract the user and the project from the 

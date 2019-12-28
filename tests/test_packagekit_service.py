@@ -117,9 +117,9 @@ class TestPackageKitCommonService(CommonServiceTests):
 
     def test_add_ppa(self):
         pass
-        #package_kit_service = PackageKitService()
-        #ppa_result = package_kit_service.add_ppa_repository(ppa_uri=self.PPA_TO_ADD)
-        #assert ppa_result.get("action") == TransactionActionsEnum.ADD_PPA.value
+        # package_kit_service = PackageKitService()
+        # ppa_result = package_kit_service.add_ppa_repository(ppa_uri=self.PPA_TO_ADD)
+        # assert ppa_result.get("action") == TransactionActionsEnum.ADD_PPA.value
 
     @staticmethod
     def assert_package_structure(package: Dict) -> None:
