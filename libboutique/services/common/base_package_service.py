@@ -1,9 +1,8 @@
 import logging
 from typing import Dict, List
 
+from libboutique.common import distro_wrapper
 from libboutique.database.models import db_session, InstallationDates
-
-import distro
 
 
 class BasePackageService:
@@ -14,7 +13,7 @@ class BasePackageService:
     PACKAGE_TYPE = "Unknown"
 
     def __init__(self, progress_publisher=None):
-        self.distribution = " ".join(distro.linux_distribution(full_distribution_name=False)[0:2])
+        self.distribution = distro_wrapper.get_distro()
         self.progress_publisher = progress_publisher
         logging.basicConfig()
         self._logger = logging.getLogger()
