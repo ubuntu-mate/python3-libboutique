@@ -13,7 +13,7 @@ class BasePackageService:
     PACKAGE_TYPE = "Unknown"
 
     def __init__(self, progress_publisher=None):
-        self.distribution = distro_wrapper.get_distro()
+        self.distribution = distro_wrapper.get_distro_codename()
         self.progress_publisher = progress_publisher
         logging.basicConfig()
         self._logger = logging.getLogger()
