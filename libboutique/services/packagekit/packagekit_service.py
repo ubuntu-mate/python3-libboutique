@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Iterable, Generator
+from typing import Dict, List, Optional, Iterable
 
 from libboutique.services.common.base_package_service import BasePackageService
 from libboutique.common.transaction_feedback_decorator import transaction_feedback_decorator
@@ -41,6 +41,13 @@ class PackageKitService(BasePackageService):
         """
         if self.progress_publisher is None:
             return
+
+    @transaction_feedback_decorator(action=TransactionActionsEnum.ADD_PPA)
+    def add_ppa_repository(self, ppa_uri):
+        self._validate_ppa_format(uri=ppa_uri)
+        print(self.distribution)
+        self.source_list.add(type=self._SOURCE_PPA_TYPE, uri=ppa_uri, dist=self.distribution, orig_comps=['main'])
+        return self.source_list.save()
 
     def list_installed_packages(self) -> List:
         """
