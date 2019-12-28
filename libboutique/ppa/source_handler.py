@@ -9,6 +9,7 @@ class SourceHandler:
 
         This includes: ppa and custom urls
     """
+    LAUNCHPAD_URL = "http://ppa.launchpad.net/{user}/{project}/ubuntu"
     SOURCE_LIST_PATH = "/etc/apt/sources.list"
     SOURCE_LIST_BACKUP_PATH  = "/etc/apt/sources.list.back"
 
