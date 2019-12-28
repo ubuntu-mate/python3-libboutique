@@ -2,8 +2,22 @@ import os
 
 from libboutique.ppa.source_handler import SourceHandler
 
+import pytest
+
 
 class TestSourceHandler:
+
+    valid_ppas = [
+        "ppa:jflabonte/test",
+        "ppa:graphics-drivers/ppa"
+    ]
+
+    invalid_ppas = [
+        "jflable/test",
+        "ppa:graphics-driver-ppa",
+        "https://www.google.com",
+        "ppa:graphics-drivers/ppa:jflabonte"
+    ]
 
     def test_init_source_handler(self):
         source_handler = SourceHandler()
