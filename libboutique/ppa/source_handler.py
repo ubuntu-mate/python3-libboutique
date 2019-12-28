@@ -55,3 +55,18 @@ class SourceHandler:
         uri = uri[len(self._PPA_STRING):]
         information_array = uri.split(self._PPA_SEPARATOR)
         return tuple(information_array)
+
+    def _format__from_ppa(self, user: str, project: str) -> str:
+        """
+
+        """
+        source_url = self.LAUNCHPAD_URL.format(user=user, project=project)
+        return self.PPA_CONFIG_TEMPLATE.format(url=source_url, distro=distro_wrapper.get_distro_codename())
+
+    def _format_ppa_file_path(self):
+        return
+
+    def add_ppa_source(self, uri:str):
+        self._validate_ppa_format(uri=uri)
+        user. project = self._extract_information_from_ppa_uri(uri=uri)
+
