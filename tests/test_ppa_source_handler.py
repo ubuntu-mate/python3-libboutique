@@ -7,6 +7,8 @@ import pytest
 
 class TestSourceHandler:
 
+    valid_test_ppa = "ppa:graphics-drivers/ppa"
+
     valid_ppas = [
         "ppa:jflabonte/test",
         "ppa:graphics-drivers/ppa"
@@ -42,6 +44,13 @@ class TestSourceHandler:
         source_handler = SourceHandler()
         with pytest.raises(RuntimeError):
             source_handler._validate_ppa_format(uri=test_invalid_ppas)
+
+    def test_extract_ppa_information(self):
+        source_handler = SourceHandler()
+        user, project = source_handler._extract_information_from_ppa_uri(uri=self.valid_test_ppa)
+        assert user == "graphics-drivers"
+        assert project == "ppa"
+
 
     @staticmethod
     def _read_file_content(path):
