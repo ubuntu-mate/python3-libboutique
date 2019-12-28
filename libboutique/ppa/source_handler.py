@@ -13,6 +13,8 @@ class SourceHandler:
     SOURCE_LIST_PATH = "/etc/apt/sources.list"
     SOURCE_LIST_BACKUP_PATH  = "/etc/apt/sources.list.back"
 
+    _REGEX_PPA = re.compile(r'^ppa:[a-z_-]+\/[a-z_-]+$')
+
     def __init__(self):
         pass
     
