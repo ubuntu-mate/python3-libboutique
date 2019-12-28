@@ -1,6 +1,14 @@
 import shutil
+import re
+
 
 class SourceHandler:
+    """
+        It takes care of the operations related to adding/removing
+        external sources.
+
+        This includes: ppa and custom urls
+    """
     SOURCE_LIST_PATH = "/etc/apt/sources.list"
     SOURCE_LIST_BACKUP_PATH  = "/etc/apt/sources.list.back"
 
