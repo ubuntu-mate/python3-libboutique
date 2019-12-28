@@ -32,6 +32,17 @@ class TestSourceHandler:
         assert os.path.exists(source_handler.SOURCE_LIST_BACKUP_PATH)
         assert self._read_file_content(path=source_handler.SOURCE_LIST_PATH) == self._read_file_content(path=source_handler.SOURCE_LIST_BACKUP_PATH)
 
+    @pytest.mark.parametrize("test_valid_ppas", valid_ppas)
+    def test_validate_ppa_uri_valid(self, test_valid_ppas):
+        source_handler = SourceHandler()
+        source_handler._validate_ppa_format(uri=test_valid_ppas)
+
+    @pytest.mark.parametrize("test_invalid_ppas", invalid_ppas)
+    def test_validate_ppa_uri_invalid(self, test_invalid_ppas):
+        source_handler = SourceHandler()
+        with pytest.raises(RuntimeError):
+            source_handler._validate_ppa_format(uri=test_invalid_ppas)
+
     @staticmethod
     def _read_file_content(path):
         with open(path, "r") as f:
