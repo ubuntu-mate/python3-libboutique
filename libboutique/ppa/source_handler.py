@@ -24,3 +24,13 @@ class SourceHandler:
             we need to do a rollback
         """
         shutil.copyfile(src=self.SOURCE_LIST_PATH, dst=self.SOURCE_LIST_BACKUP_PATH)
+
+    def _validate_ppa_format(self, uri: str) -> None:
+        """
+            Make sure the PPA uri is well formatted.
+
+            ppa:user/project
+
+        """
+        if not self._REGEX_PPA.match(uri):
+            raise RuntimeError("Invalid ppa uri")
