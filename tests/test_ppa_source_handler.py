@@ -1,5 +1,3 @@
-import os
-
 from libboutique.ppa.source_handler import SourceHandler
 
 import pytest
