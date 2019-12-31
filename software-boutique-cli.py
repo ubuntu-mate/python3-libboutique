@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import argparse
 
-from libboutique.publisher.progress_publisher import ProgressPublisher
+# from libboutique.publisher.progress_publisher import ProgressPublisher
 from libboutique.handlers.package_command_handler import PackageCommandHandler
 
 
