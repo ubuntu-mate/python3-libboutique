@@ -2,7 +2,7 @@ from libboutique.common import distro_wrapper
 from libboutique.templates import ppa_templates
 
 
-def format_list_file(user: str, project: str) -> str:
+def format_list_filename(user: str, project: str) -> str:
     """
         i.e: user: graphics, project: ppa -> graphics-ubuntu-ppa-eoan.list
     """
