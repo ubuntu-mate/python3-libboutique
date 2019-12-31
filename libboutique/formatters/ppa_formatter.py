@@ -13,6 +13,8 @@ def format_file_path(user: str, project: str) -> str:
     """
         i.e: /etc/apt/sources.list.d/graphics-ubuntu-ppa-eoan.list
     """
+    list_filename = format_list_filename(user=user, project=project)
+    return ppa_templates.PPA_BASE_PATH.format(list_filename=list_filename)
 
 
 def format_file_content(url):
