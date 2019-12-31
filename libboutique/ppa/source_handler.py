@@ -3,6 +3,7 @@ import re
 from typing import Tuple
 
 from libboutique.common import distro_wrapper
+from libboutique.templates import ppa_templates
 
 
 class SourceHandler:
@@ -12,9 +13,7 @@ class SourceHandler:
 
         This includes: ppa and custom urls
     """
-    PPA_CONFIG_TEMPLATE = "deb {url} {distro} main"
 
-    LAUNCHPAD_URL = "http://ppa.launchpad.net/{user}/{project}/ubuntu"
     _REGEX_PPA = re.compile(r'^ppa:[a-z_-]+\/[a-z_-]+$')
     _PPA_STRING = "ppa:"
     _PPA_SEPARATOR = "/"
