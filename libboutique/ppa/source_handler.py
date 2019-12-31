@@ -1,4 +1,3 @@
-import shutil
 import re
 
 from typing import Tuple
@@ -16,10 +15,6 @@ class SourceHandler:
     PPA_CONFIG_TEMPLATE = "deb {url} {distro} main"
 
     LAUNCHPAD_URL = "http://ppa.launchpad.net/{user}/{project}/ubuntu"
-    SOURCE_LIST_PATH = "/etc/apt/sources.list"
-    SOURCE_LIST_BACKUP_PATH  = "/etc/apt/sources.list.back"
-    NEW_PPA_BASE_PATH = "/etc/apt/sources.list.d/{package}"
-
     _REGEX_PPA = re.compile(r'^ppa:[a-z_-]+\/[a-z_-]+$')
     _PPA_STRING = "ppa:"
     _PPA_SEPARATOR = "/"
@@ -27,13 +22,6 @@ class SourceHandler:
     def __init__(self):
         pass
     
-    def _backup_source_file(self) -> None:
-        """
-            Back the source.list file in case
-            we need to do a rollback
-        """
-        shutil.copyfile(src=self.SOURCE_LIST_PATH, dst=self.SOURCE_LIST_BACKUP_PATH)
-
     def _validate_ppa_format(self, uri: str) -> None:
         """
             Make sure the PPA uri is well formatted.
