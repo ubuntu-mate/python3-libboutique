@@ -21,19 +21,6 @@ class TestSourceHandler:
         "ppa:graphics-drivers/ppa:jflabonte"
     ]
 
-    def test_init_source_handler(self):
-        source_handler = SourceHandler()
-        assert source_handler.SOURCE_LIST_PATH == "/etc/apt/sources.list"
-        assert source_handler.SOURCE_LIST_BACKUP_PATH == source_handler.SOURCE_LIST_PATH + ".back"
-
-    def test_backup_source_list(self):
-        source_handler = SourceHandler()
-        if os.path.exists(source_handler.SOURCE_LIST_BACKUP_PATH):
-            os.remove(source_handler.SOURCE_LIST_BACKUP_PATH)
-        source_handler._backup_source_file()
-        assert os.path.exists(source_handler.SOURCE_LIST_BACKUP_PATH)
-        assert self._read_file_content(path=source_handler.SOURCE_LIST_PATH) == self._read_file_content(path=source_handler.SOURCE_LIST_BACKUP_PATH)
-
     @pytest.mark.parametrize("test_valid_ppas", valid_ppas)
     def test_validate_ppa_uri_valid(self, test_valid_ppas):
         source_handler = SourceHandler()
