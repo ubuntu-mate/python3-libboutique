@@ -29,7 +29,7 @@ class PPAFormatter:
         """
             i.e: http://ppa.launchpad.net/graphics/ppa/ubuntu
         """
-        return ppa_templates.LAUNCHPAD_URL.format(user=self.user, project=self.project)
+        return ppa_templates.REPOSITORY_URL.format(user=self.user, project=self.project)
 
     def format_file_content(self):
         """
