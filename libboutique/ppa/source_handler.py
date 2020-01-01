@@ -2,9 +2,6 @@ import re
 
 from typing import Tuple
 
-from libboutique.common import distro_wrapper
-from libboutique.templates import ppa_templates
-
 
 class SourceHandler:
     """
