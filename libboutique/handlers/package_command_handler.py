@@ -41,12 +41,7 @@ class PackageCommandHandler(metaclass=Singleton):
                 self._SERVICE_DICT_KEY: PackageKitService(progress_publisher=self.progress_publisher),
                 self._ACTION_QUEUE_DICT_KEY: self._APT_QUEUE,
                 self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._APT_QUEUE,)),
-            },
-            self._CURATED_DICT_KEY: {
-                self._SERVICE_DICT_KEY: None,  # TODO  replace None for the service intended for curated packages
-                self._ACTION_QUEUE_DICT_KEY: self._CURATED_QUEUE,
-                self._WORKER_DICT_KEY: Thread(target=self._run_service_queue, args=(self._CURATED_QUEUE,)),
-            },
+            }
         }
 
     def install_package(self, name: str, package_type: str, callback: Callable) -> None:
@@ -129,10 +124,10 @@ class PackageCommandHandler(metaclass=Singleton):
             We want only 1 thread running per service
             at a time
         """
-        if not worker.isAlive():
+        if not worker.alive():
             worker.start()
 
     @staticmethod
     def _run_service_queue(service_queue: Queue):
         while not service_queue.empty():
-            service_queue.get()()  # Calling the function stored ( Install or Remove
+            service_queue.get()()  # Calling the function stored ( Install or Remove )
