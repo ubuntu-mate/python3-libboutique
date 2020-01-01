@@ -1,6 +1,9 @@
 import re
+import os
 
 from typing import Tuple
+
+from libboutique.formatters.ppa_formatter import PPAFormatter
 
 
 class SourceHandler:
@@ -40,7 +43,17 @@ class SourceHandler:
         information_array = uri.split(self._PPA_SEPARATOR)
         return tuple(information_array)
 
-    def add_ppa_source(self, uri:str):
+    def _write_ppa_source(self, file_path, file_content):
+        pass
+
+    def add_ppa_source(self, uri: str):
         self._validate_ppa_format(uri=uri)
-        user. project = self._extract_information_from_ppa_uri(uri=uri)
+        user_project_tuple = self._extract_information_from_ppa_uri(uri=uri)
+        ppa_format = PPAFormatter(*user_project_tuple)
+        file_content = ppa_format.format_file_content()
+        file_path = ppa_format.format_file_path()
+        if not os.path.exists(file_path):
+            self._write_ppa_source(file_path=file_path, file_content=file_content)
+        # TODO Need to complete
+
 
