@@ -22,7 +22,7 @@ class PPAFormatter:
         """
             i.e: /etc/apt/sources.list.d/graphics-ubuntu-ppa-eoan.list
         """
-        list_filename = self.format_list_filename(user=self.user, project=self.project)
+        list_filename = self.format_list_filename()
         return ppa_templates.BASE_REPOSITORY_FILE_PATH.format(list_filename=list_filename)
 
     def format_repository(self) -> str:
