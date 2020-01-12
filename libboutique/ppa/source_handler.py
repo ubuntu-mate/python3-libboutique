@@ -20,7 +20,7 @@ class SourceHandler:
 
     def __init__(self):
         pass
-    
+
     def _validate_ppa_format(self, uri: str) -> None:
         """
             Make sure the PPA uri is well formatted.
@@ -33,7 +33,7 @@ class SourceHandler:
 
     def _extract_information_from_ppa_uri(self, uri: str) -> Tuple:
         """
-            Extract the user and the project from the 
+            Extract the user and the project from the
             ppa URI
 
             1st -> User
@@ -43,17 +43,12 @@ class SourceHandler:
         information_array = uri.split(self._PPA_SEPARATOR)
         return tuple(information_array)
 
-    def _write_ppa_source(self, file_path, file_content):
-        pass
-
     def add_ppa_source(self, uri: str):
         self._validate_ppa_format(uri=uri)
         user_project_tuple = self._extract_information_from_ppa_uri(uri=uri)
         ppa_format = PPAFormatter(*user_project_tuple)
         file_content = ppa_format.format_file_content()
         file_path = ppa_format.format_file_path()
-        if not os.path.exists(file_path):
-            self._write_ppa_source(file_path=file_path, file_content=file_content)
-        # TODO Need to complete
-
-
+        if not file_exists(file_path):
+            write_file(file_path=file_path, file_content=file_content)
+        # TODO Need to complete with GPG to get the key
