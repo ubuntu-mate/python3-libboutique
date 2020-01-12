@@ -7,9 +7,7 @@ format:
 	black --config pyproject.toml *
 
 setup_dev:
-	python3 -m venv .venv
-	make init
-	source .venv/bin/activate && pip install -r requirements.txt
+	sudo pip3 install -r requirements.txt
 
 unittest:
 	sudo su -c "source .venv/bin/activate && coverage run -m pytest -v --maxfail=1 --log-file \"tests.log\""
