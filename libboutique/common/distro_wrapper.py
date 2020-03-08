@@ -3,7 +3,7 @@ from functools import lru_cache
 from distro import LinuxDistribution
 
 
-@lru_cache()
+@lru_cache(maxsize=1)
 def get_distro_codename() -> str:
     """
         Takes care of getting the distro codename.
@@ -14,7 +14,7 @@ def get_distro_codename() -> str:
     return LinuxDistribution().codename()
 
 
-@lru_cache()
+@lru_cache(maxsize=1)
 def get_distro_id() -> str:
     """
         Takes care of getting the distro id.
