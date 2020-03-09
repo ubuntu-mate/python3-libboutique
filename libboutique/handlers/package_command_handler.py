@@ -26,11 +26,11 @@ class PackageCommandHandler(metaclass=Singleton):
     _SNAP_DICT_KEY = "snap"
     _WORKER_DICT_KEY = "worker"
 
-    def __init__(self, callback_subscribe):
+    def __init__(self, callback_subscribe, origin="console"):
         self._list_package_thread = Thread()
         self.callback_subscribe = callback_subscribe
         self.progress_publisher = ProgressPublisher()
-        self.progress_publisher.subscribe(self.origin, self.callback_subscribe)
+        self.progress_publisher.subscribe(origin, self.callback_subscribe)
         self._package_type_services = {
             self._SNAP_DICT_KEY: {
                 self._SERVICE_DICT_KEY: SnapService(progress_publisher=self.progress_publisher),
