@@ -16,3 +16,4 @@ build/
 docs/
 *.log
 .vagrant/
+**/venv/
