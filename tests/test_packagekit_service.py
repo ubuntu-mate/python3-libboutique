@@ -66,7 +66,7 @@ class TestPackageKitCommonService(CommonServiceTests):
             and that they are all tagged as installed
         """
         install_packages = PackageKitService().list_installed_packages()
-        assert len(install_packages) >= 1000
+        assert len(install_packages) >= 500
         for package in install_packages:
             self.assert_package_structure(package=package)
             assert package["is_installed"]
