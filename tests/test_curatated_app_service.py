@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 
 from libboutique.services.curated_app_service import CuratedAppService
@@ -17,7 +18,15 @@ class TestCuratedAppService:
 		with open(path, "r") as f:
 			return f.read()
 
+	def get_time_touched_fs(self, path: str) -> int:
+		try:
+			return os.stat(path).st_mtime
+		except FileNotFoundError:
+			return 0
+
 	def test_build_index(self):
 		with self.create_instance() as curated_app:
-			curated_app.rebuild_index()
+			output = curated_app.build_index()
+			assert output is not None
+			assert self.get_time_touched_fs(path=curated_app.DIST_CURATED_APPS_FOLDER)
 
