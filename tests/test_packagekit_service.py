@@ -16,13 +16,13 @@ def retrieve_package_id_from_name(name):
 
 
 GLANCES_PACKAGE = "glances"
-FLASHBAKE_PACKAGE = "flashbake"
+HTOP_PACKAGE = "htop"
 
 
 class TestPackageKitCommonService(CommonServiceTests):
 
     APPLICATION_TO_INSTALL_REMOVE = retrieve_package_id_from_name(name=GLANCES_PACKAGE)
-    SECOND_APPLICATION_INSTALL_REMOVE = retrieve_package_id_from_name(name=FLASHBAKE_PACKAGE)
+    SECOND_APPLICATION_INSTALL_REMOVE = retrieve_package_id_from_name(name=HTOP_PACKAGE)
     PACKAGE_KIT_SERVICE = PackageKitService()
 
     PACKAGE_TYPE = "apt"
@@ -95,7 +95,7 @@ class TestPackageKitCommonService(CommonServiceTests):
         end_time = time()
         assert start_time < end_time
         time_elapsed = end_time - start_time
-        assert time_elapsed > 2  # Determined that an apt update takes about 2 sec
+        assert time_elapsed > 0.5  # Determined that an apt update takes more than 0.5 seconds
         self.assert_refresh_cache_structure(package_kit_service=package_kit_service, response=res)
 
     def test_repair_dpkg(self):
