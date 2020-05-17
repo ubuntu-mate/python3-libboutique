@@ -8,7 +8,7 @@ format:
 	black --config pyproject.toml *
 
 unittest:
-	sudo python3 -m pytest -v --maxfail=1 --log-file "tests.log"
+	sudo python3 -m pytest -v --log-file "tests.log"
 
 report:
 	coverage report
