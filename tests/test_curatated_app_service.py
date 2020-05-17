@@ -28,5 +28,6 @@ class TestCuratedAppService:
 		with self.create_instance() as curated_app:
 			output = curated_app.build_index()
 			assert output is not None
+			assert isinstance(output, dict)
 			assert self.get_time_touched_fs(path=curated_app.DIST_CURATED_APPS_FOLDER)
 
