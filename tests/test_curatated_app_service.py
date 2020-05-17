@@ -24,10 +24,10 @@ class TestCuratedAppService:
 		except FileNotFoundError:
 			return 0
 
-	def test_build_index(self):
-		with self.create_instance() as curated_app:
-			output = curated_app.build_index()
-			assert output is not None
-			assert isinstance(output, dict)
-			assert self.get_time_touched_fs(path=curated_app.DIST_CURATED_APPS_FOLDER)
+	# def test_build_index(self):
+	# 	with self.create_instance() as curated_app:
+	# 		output = curated_app.build_index()
+	# 		assert output is not None
+	# 		assert isinstance(output, dict)
+	# 		assert self.get_time_touched_fs(path=curated_app.DIST_CURATED_APPS_FOLDER)
 
