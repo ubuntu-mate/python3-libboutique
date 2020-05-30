@@ -17,4 +17,8 @@ class CuratedApp:
     proprietary: bool
     alternate_to: str = field(init=True)  # Always get init.
     urls: dict  # More like links
-    arch: List  # List of architecture e.g. amd64, i386, arm
+    arch: List[str]  # List of architecture e.g. amd64, i386, arm
+    releases: List[str]  # List of release codenames, e.g. : xenial, bionic, focal
+    # TODO Defiane most accurate type here for methods
+    methods: List  # Installation Method, it can be APT or SNAP
+    # TODO Validate current structure and come with propositions.
