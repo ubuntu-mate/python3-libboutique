@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+from libboutique.cli import software_boutique
+
+
+if __name__ == "__main__":
+    software_boutique.main()
