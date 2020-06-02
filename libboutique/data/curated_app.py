@@ -19,6 +19,6 @@ class CuratedApp:
     urls: dict  # More like links
     arch: List[str]  # List of architecture e.g. amd64, i386, arm
     releases: List[str]  # List of release codenames, e.g. : xenial, bionic, focal
-    # TODO Defiane most accurate type here for methods
+    # TODO Define most accurate type here for methods
     methods: List  # Installation Method, it can be APT or SNAP
     # TODO Validate current structure and come with propositions.
