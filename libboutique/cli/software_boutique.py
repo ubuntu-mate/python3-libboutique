@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import argparse
 
 # from libboutique.publisher.progress_publisher import ProgressPublisher
@@ -37,7 +36,3 @@ def main():
             print(value)
             commands.get(key)(name=value)
             break
-
-
-if __name__ == "__main__":
-    main()
